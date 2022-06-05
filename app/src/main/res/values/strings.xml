@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">amemo</string>
+    <string name="amemo">Amemo</string>
+    <string name="arrow_image">arrow image</string>
+    <string name="find_pwd">找回密码</string>
+    <string name="login_phone">手机登录</string>
+    <string name="register_usr">注册用户</string>
+    <string name="title_activity_after_login">AfterLoginActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="memo">备忘</string>
+    <string name="group">群组</string>
+    <string name="settings">设置</string>
 </resources>

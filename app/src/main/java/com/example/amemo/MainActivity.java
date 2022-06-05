@@ -3,7 +3,11 @@ package com.example.amemo;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
+import android.widget.ImageButton;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -15,5 +19,11 @@ public class MainActivity extends AppCompatActivity {
         if(actionBar!=null){
             actionBar.hide();
         }
+        ImageButton btnLogin = findViewById(R.id.login_btn);
+        btnLogin.setOnClickListener(v->{
+            Intent intent = new Intent();
+            intent.setClass(MainActivity.this,AfterLoginActivity.class);
+            startActivity(intent);
+        });
     }
 }

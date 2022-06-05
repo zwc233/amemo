@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_memo">
+
+    <fragment
+        android:id="@+id/navigation_memo"
+        android:name="com.example.amemo.ui.memo.MemoFragment"
+        tools:layout="@layout/fragment_memo" />
+
+    <fragment
+        android:id="@+id/navigation_group"
+        android:name="com.example.amemo.ui.group.GroupFragment"
+        tools:layout="@layout/fragment_group" />
+
+    <fragment
+        android:id="@+id/navigation_settings"
+        android:name="com.example.amemo.ui.settings.SettingsFragment"
+        tools:layout="@layout/fragment_settings" />
+</navigation>

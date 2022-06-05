@@ -8,31 +8,104 @@
 
 
     <EditText
-        android:id="@+id/editTextNumber2"
+        android:id="@+id/inputPwd"
+        android:textAlignment="center"
+        android:textSize="23sp"
         android:layout_width="300dp"
         android:layout_height="50dp"
+        android:layout_marginTop="44dp"
         android:background="@drawable/round_shape_edit_text"
         android:ems="10"
-        android:inputType="number"
-        tools:layout_editor_absoluteX="55dp"
-        tools:layout_editor_absoluteY="214dp" />
+        android:inputType="textPassword"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/inputUsr"
+        android:autofillHints=""
+        tools:ignore="LabelFor" />
 
     <EditText
-        android:id="@+id/editTextNumber"
+        android:id="@+id/inputUsr"
+        android:textAlignment="center"
+        android:textSize="23sp"
         android:layout_width="300dp"
         android:layout_height="50dp"
+        android:layout_marginTop="24dp"
         android:background="@drawable/round_shape_edit_text"
         android:ems="10"
         android:inputType="number"
-        tools:layout_editor_absoluteX="55dp"
-        tools:layout_editor_absoluteY="146dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        android:autofillHints=""
+        tools:ignore="LabelFor" />
 
-    <Button
-        android:id="@+id/button2"
+    <TextView
+        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Button"
-        tools:layout_editor_absoluteX="171dp"
-        tools:layout_editor_absoluteY="462dp" />
+        android:layout_marginTop="92dp"
+        android:fontFamily="@font/alfa_slab_one"
+        android:text="@string/amemo"
+        android:textColor="#2699CD"
+        android:textSize="60sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/login_btn"
+        android:layout_width="89dp"
+        android:layout_height="87dp"
+        android:background="@drawable/circle_shape_button"
+        android:padding="18dp"
+        android:scaleType="centerInside"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/inputPwd"
+        app:srcCompat="@drawable/arrow"
+        android:contentDescription="@string/arrow_image" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="47dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <Button
+            android:id="@+id/button3"
+            android:layout_width="125dp"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:text="@string/find_pwd"
+            android:textColor="#090808"
+            style="?android:attr/buttonBarButtonStyle" />
+
+        <Button
+            android:id="@+id/button4"
+            android:layout_width="125dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:text="@string/login_phone"
+            android:textColor="#090808"
+            style="?android:attr/buttonBarButtonStyle" />
+
+        <Button
+            android:id="@+id/button5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:text="@string/register_usr"
+            android:textColor="#090808"
+            style="?android:attr/buttonBarButtonStyle" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

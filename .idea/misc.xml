@@ -4,9 +4,19 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Program2022/MPD/amemo/app/src/main/res/drawable/circle_shape_button.xml" value="0.1725" />
+        <entry key="..\:/Program2022/MPD/amemo/app/src/main/res/drawable/ic_dashboard_black_24dp.xml" value="0.183" />
+        <entry key="..\:/Program2022/MPD/amemo/app/src/main/res/drawable/ic_launcher_background.xml" value="0.2735" />
         <entry key="..\:/Program2022/MPD/amemo/app/src/main/res/drawable/my_icon_background.xml" value="0.248" />
+        <entry key="..\:/Program2022/MPD/amemo/app/src/main/res/drawable/plain_text_button.xml" value="0.2495" />
         <entry key="..\:/Program2022/MPD/amemo/app/src/main/res/drawable/round_shape_edit_text.xml" value="0.1725" />
+        <entry key="..\:/Program2022/MPD/amemo/app/src/main/res/layout/activity_after_login.xml" value="0.22" />
         <entry key="..\:/Program2022/MPD/amemo/app/src/main/res/layout/activity_main.xml" value="0.22" />
+        <entry key="..\:/Program2022/MPD/amemo/app/src/main/res/layout/fragment_dashboard.xml" value="0.23007246376811594" />
+        <entry key="..\:/Program2022/MPD/amemo/app/src/main/res/layout/fragment_group.xml" value="0.26197916666666665" />
+        <entry key="..\:/Program2022/MPD/amemo/app/src/main/res/layout/fragment_home.xml" value="0.20516304347826086" />
+        <entry key="..\:/Program2022/MPD/amemo/app/src/main/res/layout/fragment_notifications.xml" value="0.20516304347826086" />
+        <entry key="..\:/Program2022/MPD/amemo/app/src/main/res/layout/group_item.xml" value="0.22916666666666666" />
+        <entry key="..\:/Program2022/MPD/amemo/app/src/main/res/menu/bottom_nav_menu.xml" value="0.23489583333333333" />
         <entry key="..\:/Program2022/MPD/amemo/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.248" />
         <entry key="..\:/Program2022/MPD/amemo/app/src/main/res/mipmap-anydpi-v26/my_icon.xml" value="0.262" />
       </map>

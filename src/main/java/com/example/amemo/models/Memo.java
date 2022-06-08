@@ -24,12 +24,12 @@ public class Memo {
     public String content;
 
     @Field("when")
-    public Date when;
+    public long when;
 
     @Field("cycle")
     public long cycle;
 
-    public Memo(String title, String content, Date when, long cycle) {
+    public Memo(String title, String content, long when, long cycle) {
         this.title    =  title;
         this.content  =  content;
         this.when     =  when;

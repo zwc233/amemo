@@ -32,13 +32,13 @@ public class MemoController {
 
     @CrossOrigin
     @RequestMapping("/createMemo")
-    public JSONObject createMemo(String token, String groupId, String title, String content, String when, long cycle) {
+    public JSONObject createMemo(String token, String groupId, String title, String content, long when, long cycle) {
         JSONObject jsonObject = new JSONObject();
         
         try {
             String username = accountService.validate(token);
             User user = accountService.findUserByUsername(username);
-            Memo memo = new Memo(title, content, new Date(), cycle);
+            Memo memo = new Memo(title, content, when, cycle);
             Group group = groupService.findGroupById(groupId);
             memoService.createMemo(user, group, memo);
             jsonObject.put("code", "200");

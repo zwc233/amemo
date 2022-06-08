@@ -14,18 +14,7 @@ import com.example.amemo.R;
 
 import java.util.List;
 
-class MemoItem {
-    private String name;
 
-    public MemoItem(String name) {
-        this.name = name;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-}
 
 
 public class MemoAdapter extends RecyclerView.Adapter<MemoAdapter.ViewHolder>{

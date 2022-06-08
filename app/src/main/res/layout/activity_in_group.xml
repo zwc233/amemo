@@ -4,13 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.group.InGroupActivity">
+    tools:context=".ui.group.InGroupActivity"
+    android:background="#EFEFEF"
+    >
 
     <LinearLayout
+        android:id="@+id/linearLayoutInGroup"
         android:layout_width="match_parent"
+        android:layout_marginTop="40dp"
         android:layout_height="40dp"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/recyclerView"
+        app:layout_constraintBottom_toTopOf="@+id/recyclerViewInGroup"
         app:layout_constraintTop_toTopOf="parent">
 
         <Space
@@ -33,11 +37,13 @@
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
-        android:layout_width="406dp"
-        android:layout_height="655dp"
+        android:layout_marginTop="10dp"
+        android:id="@+id/recyclerViewInGroup"
+        android:layout_width="match_parent"
+        android:layout_height="670dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayoutInGroup"
         app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -99,5 +99,12 @@ public class MainActivity extends AppCompatActivity {
             intent.setClass(MainActivity.this,AfterLoginActivity.class);
             startActivity(intent);
         }
+
+        Button btn = findViewById(R.id.registerUser);
+        btn.setOnClickListener(v -> {
+            Intent intent = new Intent();
+            intent.setClass(MainActivity.this,RegisterUserActivity.class);
+            startActivity(intent);
+        });
     }
 }

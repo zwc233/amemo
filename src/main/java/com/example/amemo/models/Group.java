@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
@@ -27,10 +28,24 @@ public class Group {
     @Field("members")
     public Set<String> members;
 
+    @Field("memos")
+    @DBRef
+    public Set<Memo> memos;
+
     public Group(String name, String description) {
         this.name         =  name;
         this.description  =  description;
         this.admins       =  new HashSet<>();
         this.members      =  new HashSet<>();
+        this.memos        =  new HashSet<>();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        try {
+            return id.equals(((Group)o).id);
+        } catch (Exception e) {
+            return false;
+        }
     }
 }

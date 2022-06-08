@@ -44,6 +44,15 @@ public class User {
         this.reminderConfig = new ReminderConfig();
     }
 
+    @Override
+    public boolean equals(Object o) {
+        try {
+            return username.equals(((User)o).username);
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
     public static class ReminderConfig {
         
         public final static int MUTE = 0, VIBRATE = 1, RING = 2;
@@ -75,10 +84,10 @@ public class User {
 
         public static class FollowRecord {
             @Field("user")
-            String userId;
+            public String userId;
 
             @Field("group")
-            String groupId;
+            public String groupId;
 
             @PersistenceCreator
             public FollowRecord(String userId, String groupId) {

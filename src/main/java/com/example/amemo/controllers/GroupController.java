@@ -1,6 +1,7 @@
 package com.example.amemo.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,9 +22,9 @@ public class GroupController {
     @Autowired
     GroupService groupService;
 
+    @CrossOrigin
     @RequestMapping("/createGroup")
     public JSONObject createGroup(String token, String name, String description) {
-        
         JSONObject jsonObject = new JSONObject();
 
         try {
@@ -45,9 +46,33 @@ public class GroupController {
         return jsonObject;
     }
 
+    @CrossOrigin
+    @RequestMapping("/invite")
+    public JSONObject invite(String token, String inviteeName, String groupId) {
+        JSONObject jsonObject = new JSONObject();
+
+        try {
+            String username = accountService.validate(token);
+            User invitor = accountService.findUserByUsername(username);
+            User invitee = accountService.findUserByUsername(inviteeName);
+            Group group  = groupService.findGroupById(groupId);
+            groupService.inviteToGroup(invitor, invitee, group);
+            jsonObject.put("code", "200");
+            jsonObject.put("msg", "Successfully invited user!");
+        } catch (AccountException e) {
+            jsonObject.put("code", e.code);
+            jsonObject.put("msg", e.message);
+        } catch (GroupException e) {
+            jsonObject.put("code", e.code);
+            jsonObject.put("msg", e.message);
+        }
+
+        return jsonObject;
+    }
+
+    @CrossOrigin
     @RequestMapping("/follow")
     public JSONObject follow(String token, String followeeName, String groupId, int level) {
-        
         JSONObject jsonObject = new JSONObject();
 
         try {
@@ -55,9 +80,10 @@ public class GroupController {
             User follower = accountService.findUserByUsername(username);
             User followee = accountService.findUserByUsername(followeeName);
             Group group = groupService.findGroupById(groupId);
-            groupService.follow(follower, followee, group, level != 0);
+            groupService.follow(follower, followee, group, level > 0);
             jsonObject.put("code", "200");
             jsonObject.put("msg", "Successfully followed user!");
+            jsonObject.put("followee", followee);
         } catch (AccountException e) {
             jsonObject.put("code", e.code);
             jsonObject.put("msg", e.message);

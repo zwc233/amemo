@@ -35,4 +35,13 @@ public class Memo {
         this.when     =  when;
         this.cycle    =  cycle;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        try {
+            return id.equals(((Memo)o).id);
+        } catch (Exception e) {
+            return false;
+        }
+    }
 }

@@ -17,6 +17,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
 import com.example.amemo.models.User;
+import com.example.amemo.websocket.SubscribeHandler;
 
 @Service
 public class AccountService {
@@ -38,6 +39,7 @@ public class AccountService {
     }
 
     public String validate(String token) throws AccountException {
+        System.out.println("validate: " + token);
         SessionRecord sessionRecord = token2User.get(token);
         if (sessionRecord == null) {
             throw new AccountException("400", "Token has expired. Please sign in again.");
@@ -51,6 +53,7 @@ public class AccountService {
     }
 
     public String signIn(String username, String password) throws AccountException {
+        System.out.println("signIn: " + username);
         Query query = new Query(Criteria.where("username").is(username))
                             .addCriteria(Criteria.where("password").is(password));        
         if (mongoTemplate.findOne(query, User.class) == null) {
@@ -70,6 +73,7 @@ public class AccountService {
     }
 
     public void signUp(User user) throws AccountException {
+        System.out.println("signUp: " + user.username);
         Query query = new Query(Criteria.where("username").is(user.username));
         if (mongoTemplate.findOne(query, User.class) == null) {
             mongoTemplate.save(user);
@@ -79,6 +83,7 @@ public class AccountService {
     }
 
     public void changePassword(String username, String oldPasswd, String newPasswd) throws AccountException {
+        System.out.println("changePassword: " + username);
         Query query =  new Query(Criteria.where("username").is(username))
                             .addCriteria(Criteria.where("password").is(oldPasswd));
         User user = mongoTemplate.findOne(query, User.class);
@@ -91,6 +96,7 @@ public class AccountService {
     }
 
     public User getPersonalInfo(String username) throws AccountException {
+        System.out.println("getPersonalInfo: " + username);
         Query query = new Query(Criteria.where("username").is(username));
         query.fields().exclude("id", "password");
         User user = mongoTemplate.findOne(query, User.class);
@@ -121,6 +127,14 @@ public class AccountService {
         return mongoTemplate.find(query, User.class);
     }
 
+    public void updateToken(String user) {
+        try {
+            String token = user2Token.get(user);
+            SessionRecord sessionRecord = token2User.get(token);
+            sessionRecord.lastSession = new Date();
+        } catch (Exception e) {}
+    }
+
     public AccountService() {
         ExecutorService threadPool = Executors.newCachedThreadPool();
         threadPool.execute(() -> {
@@ -142,9 +156,10 @@ public class AccountService {
                 while (it.hasNext()) {
                     Map.Entry<String, SessionRecord> entry = it.next();
                     if (System.currentTimeMillis() - entry.getValue().lastSession.getTime() > interval) {
-                        // System.out.println("No interaction with user " + entry.getValue().username +
-                        //     " for a long time. Removing the corresponding token.");
+                        System.out.println("No interaction with user " + entry.getValue().username +
+                            " for a long time. Removing the corresponding token.");
                         user2Token.remove(entry.getValue().username);
+                        SubscribeHandler.removeSession(entry.getValue().username);
                         it.remove();
                     }
                 }

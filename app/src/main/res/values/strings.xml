@@ -16,6 +16,10 @@
     <string name="todo">TODO</string>
     <string name="title_activity_settings">SettingsActivity</string>
 
+    <string name="use_saved_token">使用保存的 token 登录…</string>
+    <string name="request_failed">请求发送失败</string>
+    <string name="response_parse_failure">返回消息解析失败</string>
+
     <!-- Preference Titles -->
     <string name="messages_header">Messages</string>
     <string name="sync_header">Sync</string>

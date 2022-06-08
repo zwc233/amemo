@@ -6,30 +6,23 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
-import android.widget.ImageButton;
 
-public class MainActivity extends AppCompatActivity {
+public class RegisterUserActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_register_user);
         Utils.setStatusBar(this);
         ActionBar actionBar=getSupportActionBar();
         if(actionBar!=null){
             actionBar.hide();
         }
-        ImageButton btnLogin = findViewById(R.id.login_btn);
-        btnLogin.setOnClickListener(v->{
-            Intent intent = new Intent();
-            intent.setClass(MainActivity.this,AfterLoginActivity.class);
-            startActivity(intent);
-        });
 
-        Button btn = findViewById(R.id.registerUser);
+        Button btn = findViewById(R.id.btnRegister);
         btn.setOnClickListener(v -> {
             Intent intent = new Intent();
-            intent.setClass(MainActivity.this,RegisterUserActivity.class);
+            intent.setClass(RegisterUserActivity.this,AfterLoginActivity.class);
             startActivity(intent);
         });
     }

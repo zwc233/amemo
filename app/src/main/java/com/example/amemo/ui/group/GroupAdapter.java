@@ -16,10 +16,11 @@ import com.example.amemo.R;
 import java.util.List;
 
 class GroupItem {
-    private String name;
-
-    public GroupItem(String name) {
+    public String name;
+    public String content;
+    public GroupItem(String name, String content) {
         this.name = name;
+        this.content = content;
     }
 
     public String getName() {
@@ -36,11 +37,13 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder>{
 
         TextView groupName;
         ImageView groupIcon;
+        TextView groupContent;
 
         public ViewHolder(@NonNull View view) {
             super(view);
             groupName = (TextView)view.findViewById(R.id.group_name);
             groupIcon = (ImageView)view.findViewById(R.id.group_icon);
+            groupContent = (TextView)view.findViewById(R.id.group_content);
         }
     }
 
@@ -61,6 +64,8 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder>{
     public void onBindViewHolder(@NonNull GroupAdapter.ViewHolder holder, int position) {
         GroupItem groupItem = groupItemList.get(position);
         holder.groupName.setText(groupItem.getName());
+        holder.groupContent.setText(groupItem.content);
+
 
         holder.itemView.setOnClickListener(v -> {
             System.out.println(position);

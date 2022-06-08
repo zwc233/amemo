@@ -38,8 +38,8 @@ public class GroupFragment extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
         List<GroupItem> list = new ArrayList<>();
-        list.add(new GroupItem("abc"));
-        list.add(new GroupItem("bcd"));
+        list.add(new GroupItem("第一小组","这是一段简单的描述，之后可以删除哦"));
+        list.add(new GroupItem("第二小组","这是一段简单的描述"));
         GroupAdapter fruitAdapter = new GroupAdapter(list);
         recyclerView.setAdapter(fruitAdapter);
         return root;

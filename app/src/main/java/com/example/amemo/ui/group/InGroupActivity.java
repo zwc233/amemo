@@ -2,6 +2,8 @@ package com.example.amemo.ui.group;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.view.View;
@@ -12,7 +14,12 @@ import android.widget.ImageView;
 import com.example.amemo.CustomBottomDialog;
 import com.example.amemo.R;
 import com.example.amemo.Utils;
+import com.example.amemo.ui.memo.MemoAdapter;
+import com.example.amemo.ui.memo.MemoItem;
 import com.google.android.material.snackbar.Snackbar;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class InGroupActivity extends AppCompatActivity {
 
@@ -36,5 +43,15 @@ public class InGroupActivity extends AppCompatActivity {
 
             }
         });
+
+        final RecyclerView recyclerView = findViewById(R.id.recyclerViewInGroup);
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+        List<MemoItem> list = new ArrayList<>();
+        list.add(new MemoItem("abc"));
+        list.add(new MemoItem("bcd\nDDD\nFFF\nJJJ\nKKK\nDDD\nWWW"));
+        MemoAdapter fruitAdapter = new MemoAdapter(list);
+        recyclerView.setAdapter(fruitAdapter);
     }
 }

@@ -41,4 +41,17 @@
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="submitMemo">提交</string>
+    <string name="send_memo_text">发送备忘录</string>
+    <string name="textInputTime">请输入时间</string>
+    <string name="textInputTitle">请输入标题</string>
+    <string name="textInputContent">请输入内容</string>
+    <string name="inputGroupContent">请输入群描述</string>
+    <string name="inputGroupTitle">请输入群名称</string>
+    <string name="textCreateGroup">创建群组</string>
+    <string name="btnCreateGroup">创建</string>
+    <string name="registerUser">注册用户</string>
+    <string name="registerTwicePwd">请再次输入密码</string>
+    <string name="registerPwd">请输入密码</string>
+    <string name="registerUsrName">请输入用户名</string>
+    <string name="registerText">注册用户</string>
 </resources>

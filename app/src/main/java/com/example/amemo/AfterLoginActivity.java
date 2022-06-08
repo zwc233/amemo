@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageButton;
 
+import com.example.amemo.ui.group.InGroupActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.ActionBar;
@@ -55,8 +56,9 @@ public class AfterLoginActivity extends AppCompatActivity {
 
         ImageButton btnAddNewGroup = findViewById(R.id.addNewGroup);
         btnAddNewGroup.setOnClickListener(v ->{
-//            Intent mainIntent = new Intent(AfterLoginActivity.this,   DemoSettingsActivity.class);
-//            AfterLoginActivity.this.startActivity(mainIntent);
+            CreateNewGroupDialog customBottomDialog = new CreateNewGroupDialog(AfterLoginActivity.this);
+            customBottomDialog.show();
+            overridePendingTransition(R.anim.anim_slide_in_bottom,R.anim.no_anim);
         });
     }
 

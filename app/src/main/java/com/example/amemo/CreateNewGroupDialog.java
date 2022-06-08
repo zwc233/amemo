@@ -1,5 +1,4 @@
 package com.example.amemo;
-
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
@@ -18,48 +17,28 @@ import androidx.annotation.NonNull;
 
 import com.loper7.date_time_picker.dialog.CardDatePickerDialog;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 
-public class CustomBottomDialog extends Dialog {
-
-    public CustomBottomDialog(@NonNull Context context) {
+public class CreateNewGroupDialog extends Dialog {
+    public CreateNewGroupDialog(@NonNull Context context) {
         super(context, R.style.bottom_dialog_bg_style);
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.bottom_create_memo_layout);
+        setContentView(R.layout.bottom_create_group_layout);
         setWindowTheme();
         setCancelable(true);
         setCanceledOnTouchOutside(true);
 
-        EditText startTime = findViewById(R.id.editTextMemoNoteDate);
-        startTime.setInputType(InputType.TYPE_NULL);
-        startTime.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                System.out.println("aLong");
-                new CardDatePickerDialog.Builder(v.getContext())
-                        .setTitle("SET MAX DATE")
-                        .setOnChoose("确定", aLong -> {
-                            //aLong  = millisecond
-                            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                            String time = sdf.format(new Date(aLong));
-                            startTime.setText(time);
-                            return null;
-                        }).build().show();
-            }
+        Button btn = findViewById(R.id.btnCreateNewGroup);
+        btn.setOnClickListener(v ->{
+            //TODO 填写创建群组代码
+            CreateNewGroupDialog.this.dismiss();
         });
 
-        Button btn = findViewById(R.id.btnSubmitMemo);
-        btn.setOnClickListener(v ->{
-            //TODO 填写上传Memo代码
-            CustomBottomDialog.this.dismiss();
-        });
     }
 
     private void setWindowTheme() {
@@ -71,5 +50,4 @@ public class CustomBottomDialog extends Dialog {
         // 设置对话框大小
         window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
     }
-
 }

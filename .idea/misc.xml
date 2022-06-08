@@ -3,22 +3,39 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Program2022/MPD/amemo/app/src/main/res/drawable/add_button_selector.xml" value="0.2425" />
         <entry key="..\:/Program2022/MPD/amemo/app/src/main/res/drawable/circle_shape_button.xml" value="0.1725" />
+        <entry key="..\:/Program2022/MPD/amemo/app/src/main/res/drawable/corner_background.xml" value="0.2215" />
+        <entry key="..\:/Program2022/MPD/amemo/app/src/main/res/drawable/group_shape.xml" value="0.215" />
         <entry key="..\:/Program2022/MPD/amemo/app/src/main/res/drawable/ic_dashboard_black_24dp.xml" value="0.183" />
         <entry key="..\:/Program2022/MPD/amemo/app/src/main/res/drawable/ic_launcher_background.xml" value="0.2735" />
+        <entry key="..\:/Program2022/MPD/amemo/app/src/main/res/drawable/memo_shape.xml" value="0.2055" />
         <entry key="..\:/Program2022/MPD/amemo/app/src/main/res/drawable/my_icon_background.xml" value="0.248" />
         <entry key="..\:/Program2022/MPD/amemo/app/src/main/res/drawable/plain_text_button.xml" value="0.2495" />
+        <entry key="..\:/Program2022/MPD/amemo/app/src/main/res/drawable/press_item_effect.xml" value="0.215" />
         <entry key="..\:/Program2022/MPD/amemo/app/src/main/res/drawable/round_shape_edit_text.xml" value="0.1725" />
-        <entry key="..\:/Program2022/MPD/amemo/app/src/main/res/layout/activity_after_login.xml" value="0.22" />
-        <entry key="..\:/Program2022/MPD/amemo/app/src/main/res/layout/activity_main.xml" value="0.22" />
+        <entry key="..\:/Program2022/MPD/amemo/app/src/main/res/drawable/sumbit_memo_shape.xml" value="0.223" />
+        <entry key="..\:/Program2022/MPD/amemo/app/src/main/res/layout/activity_after_login.xml" value="0.16666666666666666" />
+        <entry key="..\:/Program2022/MPD/amemo/app/src/main/res/layout/activity_in_group.xml" value="0.22" />
+        <entry key="..\:/Program2022/MPD/amemo/app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="..\:/Program2022/MPD/amemo/app/src/main/res/layout/activity_user_info.xml" value="0.17552083333333332" />
+        <entry key="..\:/Program2022/MPD/amemo/app/src/main/res/layout/bottom_create_memo_layout.xml" value="0.16666666666666666" />
+        <entry key="..\:/Program2022/MPD/amemo/app/src/main/res/layout/content_in_group.xml" value="0.12447916666666667" />
         <entry key="..\:/Program2022/MPD/amemo/app/src/main/res/layout/fragment_dashboard.xml" value="0.23007246376811594" />
         <entry key="..\:/Program2022/MPD/amemo/app/src/main/res/layout/fragment_group.xml" value="0.26197916666666665" />
         <entry key="..\:/Program2022/MPD/amemo/app/src/main/res/layout/fragment_home.xml" value="0.20516304347826086" />
+        <entry key="..\:/Program2022/MPD/amemo/app/src/main/res/layout/fragment_memo.xml" value="0.20677083333333332" />
         <entry key="..\:/Program2022/MPD/amemo/app/src/main/res/layout/fragment_notifications.xml" value="0.20516304347826086" />
+        <entry key="..\:/Program2022/MPD/amemo/app/src/main/res/layout/fragment_settings.xml" value="0.30117753623188404" />
         <entry key="..\:/Program2022/MPD/amemo/app/src/main/res/layout/group_item.xml" value="0.22916666666666666" />
+        <entry key="..\:/Program2022/MPD/amemo/app/src/main/res/layout/memo_item.xml" value="0.20677083333333332" />
+        <entry key="..\:/Program2022/MPD/amemo/app/src/main/res/layout/settings_activity.xml" value="0.30416666666666664" />
+        <entry key="..\:/Program2022/MPD/amemo/app/src/main/res/layout/user_info_item_layout.xml" value="0.19927536231884058" />
+        <entry key="..\:/Program2022/MPD/amemo/app/src/main/res/layout/user_info_title.xml" value="0.19927536231884058" />
         <entry key="..\:/Program2022/MPD/amemo/app/src/main/res/menu/bottom_nav_menu.xml" value="0.23489583333333333" />
         <entry key="..\:/Program2022/MPD/amemo/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.248" />
         <entry key="..\:/Program2022/MPD/amemo/app/src/main/res/mipmap-anydpi-v26/my_icon.xml" value="0.262" />
+        <entry key="..\:/Program2022/MPD/amemo/app/src/main/res/xml/root_preferences.xml" value="0.30416666666666664" />
       </map>
     </option>
   </component>

@@ -9,37 +9,37 @@
 
     <EditText
         android:id="@+id/inputPwd"
-        android:textAlignment="center"
-        android:textSize="23sp"
         android:layout_width="300dp"
         android:layout_height="50dp"
         android:layout_marginTop="44dp"
+        android:autofillHints=""
         android:background="@drawable/round_shape_edit_text"
         android:ems="10"
         android:inputType="textPassword"
+        android:textAlignment="center"
+        android:textSize="23sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/inputUsr"
-        android:autofillHints=""
-        tools:ignore="LabelFor" />
+        tools:ignore="LabelFor,SpeakableTextPresentCheck" />
 
     <EditText
         android:id="@+id/inputUsr"
-        android:textAlignment="center"
-        android:textSize="23sp"
         android:layout_width="300dp"
         android:layout_height="50dp"
         android:layout_marginTop="24dp"
+        android:autofillHints=""
         android:background="@drawable/round_shape_edit_text"
         android:ems="10"
         android:inputType="number"
+        android:textAlignment="center"
+        android:textSize="23sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView"
-        android:autofillHints=""
-        tools:ignore="LabelFor" />
+        tools:ignore="LabelFor,SpeakableTextPresentCheck" />
 
     <TextView
         android:id="@+id/textView"
@@ -60,6 +60,7 @@
         android:layout_width="89dp"
         android:layout_height="87dp"
         android:background="@drawable/circle_shape_button"
+        android:contentDescription="@string/arrow_image"
         android:padding="18dp"
         android:scaleType="centerInside"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
@@ -67,7 +68,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/inputPwd"
         app:srcCompat="@drawable/arrow"
-        android:contentDescription="@string/arrow_image" />
+        tools:ignore="ImageContrastCheck" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -79,33 +80,33 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <Button
-            android:id="@+id/button3"
+            android:id="@+id/findPwd"
             android:layout_width="125dp"
             android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
+            android:background="@drawable/add_button_selector"
             android:text="@string/find_pwd"
             android:textColor="#090808"
-            style="?android:attr/buttonBarButtonStyle" />
+             />
 
         <Button
-            android:id="@+id/button4"
+            android:id="@+id/loginWithPhone"
             android:layout_width="125dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@android:color/transparent"
+            android:background="@drawable/add_button_selector"
             android:text="@string/login_phone"
             android:textColor="#090808"
-            style="?android:attr/buttonBarButtonStyle" />
+            />
 
         <Button
-            android:id="@+id/button5"
+            android:id="@+id/registerUser"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@android:color/transparent"
+            android:background="@drawable/add_button_selector"
             android:text="@string/register_usr"
             android:textColor="#090808"
-            style="?android:attr/buttonBarButtonStyle" />
+             />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

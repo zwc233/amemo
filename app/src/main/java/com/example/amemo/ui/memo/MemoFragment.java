@@ -9,8 +9,13 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.amemo.databinding.FragmentMemoBinding;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MemoFragment extends Fragment {
 
@@ -24,8 +29,18 @@ public class MemoFragment extends Fragment {
         binding = FragmentMemoBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView textView = binding.textMemo;
-        memoViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+//        final TextView textView = binding.textMemo;
+//        memoViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+
+        final RecyclerView recyclerView = binding.viewMemo;
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(layoutManager);
+        List<MemoItem> list = new ArrayList<>();
+        list.add(new MemoItem("abc"));
+        list.add(new MemoItem("bcd\nDDD\nFFF\nJJJ\nKKK\nDDD\nWWW"));
+        MemoAdapter fruitAdapter = new MemoAdapter(list);
+        recyclerView.setAdapter(fruitAdapter);
         return root;
     }
 

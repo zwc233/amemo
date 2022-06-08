@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">amemo</string>
-    <string name="amemo">Amemo</string>
     <string name="arrow_image">arrow image</string>
     <string name="find_pwd">找回密码</string>
     <string name="login_phone">手机登录</string>
@@ -12,4 +11,34 @@
     <string name="memo">备忘</string>
     <string name="group">群组</string>
     <string name="settings">设置</string>
+    <string name="amemo">Amemo</string>
+    <string name="let_us_memo">Let Us Memo</string>
+    <string name="todo">TODO</string>
+    <string name="title_activity_settings">SettingsActivity</string>
+
+    <!-- Preference Titles -->
+    <string name="messages_header">Messages</string>
+    <string name="sync_header">Sync</string>
+
+    <!-- Messages Preferences -->
+    <string name="signature_title">Your signature</string>
+    <string name="reply_title">Default reply action</string>
+
+    <!-- Sync Preferences -->
+    <string name="sync_title">Sync email periodically</string>
+    <string name="attachment_title">Download incoming attachments</string>
+    <string name="attachment_summary_on">Automatically download attachments for incoming emails
+    </string>
+    <string name="attachment_summary_off">Only download attachments when manually requested</string>
+    <string name="title_activity_demo_settings">DemoSettingsActivity</string>
+    <string name="title_activity_in_group">InGroupActivity</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="submitMemo">提交</string>
 </resources>

@@ -1,6 +1,10 @@
 package com.example.amemo;
 
+import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
+import android.widget.Button;
+import android.widget.ImageButton;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -8,6 +12,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
@@ -34,9 +39,31 @@ public class AfterLoginActivity extends AppCompatActivity {
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.navigation_memo, R.id.navigation_group, R.id.navigation_settings)
                 .build();
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_after_login);
+        NavController navController;
+        NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment_activity_after_login);
+        navController = navHostFragment.getNavController();
+        //NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_after_login);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
+
+        ImageButton btnIcon = findViewById(R.id.iconButton);
+        btnIcon.setOnClickListener(v ->{
+            Intent mainIntent = new Intent(AfterLoginActivity.this,   UserInfoActivity.class);
+            AfterLoginActivity.this.startActivity(mainIntent);
+            overridePendingTransition(R.anim.in_from_left,R.anim.out_to_right);
+        });
+
+        ImageButton btnAddNewGroup = findViewById(R.id.addNewGroup);
+        btnAddNewGroup.setOnClickListener(v ->{
+//            Intent mainIntent = new Intent(AfterLoginActivity.this,   DemoSettingsActivity.class);
+//            AfterLoginActivity.this.startActivity(mainIntent);
+        });
     }
 
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.addCategory(Intent.CATEGORY_HOME);
+        startActivity(intent);
+    }
 }

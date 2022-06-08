@@ -1,0 +1,35 @@
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory app:title="个人信息">
+
+        <EditTextPreference
+            app:key="user_name"
+            app:title="用户名"
+            app:useSimpleSummaryProvider="true" />
+
+        <ListPreference
+            app:defaultValue="online"
+            app:entries="@array/state_entries"
+            app:entryValues="@array/state_values"
+            app:key="login_state"
+            app:title="状态"
+            app:useSimpleSummaryProvider="true" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="全局提醒设置">
+
+        <SwitchPreferenceCompat
+            app:key="is_opened_note"
+            app:title="打开提醒" />
+
+        <SwitchPreferenceCompat
+            app:dependency="is_opened_note"
+            app:key="note_method"
+            app:summaryOff="振动模式"
+            app:summaryOn="响铃模式"
+            app:title="提醒方式" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

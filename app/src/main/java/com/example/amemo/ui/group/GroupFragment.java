@@ -9,8 +9,14 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.amemo.databinding.FragmentGroupBinding;
+
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class GroupFragment extends Fragment {
 
@@ -26,6 +32,16 @@ public class GroupFragment extends Fragment {
 
         // final TextView textView = binding.textGroup;
         // groupViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+
+        final RecyclerView recyclerView = binding.viewGroup;
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(layoutManager);
+        List<GroupItem> list = new ArrayList<>();
+        list.add(new GroupItem("abc"));
+        list.add(new GroupItem("bcd"));
+        GroupAdapter fruitAdapter = new GroupAdapter(list);
+        recyclerView.setAdapter(fruitAdapter);
         return root;
     }
 

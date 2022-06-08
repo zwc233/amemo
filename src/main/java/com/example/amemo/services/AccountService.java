@@ -98,6 +98,7 @@ public class AccountService {
     public User getPersonalInfo(String username) throws AccountException {
         System.out.println("getPersonalInfo: " + username);
         Query query = new Query(Criteria.where("username").is(username));
+        query.fields().exclude("id").exclude("password");
         query.fields().exclude("id", "password");
         User user = mongoTemplate.findOne(query, User.class);
         if (user == null) {
@@ -109,6 +110,7 @@ public class AccountService {
 
     public User findUserByUsername(String username) throws AccountException {
         Query query = new Query(Criteria.where("username").is(username));
+        query.fields().exclude("id").exclude("password");
         User user = mongoTemplate.findOne(query, User.class);
         if (user == null) {
             throw new AccountException("205", "User not found. Account have been deactivated.");

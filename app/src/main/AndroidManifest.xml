@@ -2,7 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.amemo">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:allowBackup="true"
@@ -11,9 +14,15 @@
         android:roundIcon="@mipmap/my_icon_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Amemo">
-        <activity
-            android:name=".RegisterUserActivity"
-            android:exported="false" />
+        <service
+            android:name=".ReminderService"
+            android:enabled="true"
+            android:exported="true" />
+        <service
+            android:name=".SubscribeService"
+            android:enabled="true"
+            android:exported="true" />
+
         <activity
             android:name=".ui.group.InGroupActivity"
             android:exported="false" />

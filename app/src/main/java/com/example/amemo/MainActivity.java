@@ -10,13 +10,10 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
-import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.android.material.textfield.TextInputEditText;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -26,7 +23,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Lock gotResponse = new ReentrantLock();
+    final private Lock gotResponse = new ReentrantLock();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,9 +76,12 @@ public class MainActivity extends AppCompatActivity {
                             }
                         },
                         error -> {
-                            ;
+                            Toast.makeText(this,
+                                    error.getMessage(),
+                                    Toast.LENGTH_SHORT).show();
                         }
                 );
+                requestQueue.add(jsonObjectRequest);
             } catch (JSONException e) {
                 Toast.makeText(this,
                         R.string.request_failed,

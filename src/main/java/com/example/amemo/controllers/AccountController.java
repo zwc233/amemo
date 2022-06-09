@@ -40,9 +40,11 @@ public class AccountController {
         
         try {
             String token = accountService.signIn(username, password);
+            User user = accountService.findUserByUsername(username);
             jsonObject.put("code", "200");
             jsonObject.put("msg", "Successfully signed in!");
             jsonObject.put("token", token);
+            jsonObject.put("user", user);
         } catch (AccountException e) {
             jsonObject.put("code", e.code);
             jsonObject.put("msg", e.message);
@@ -103,7 +105,7 @@ public class AccountController {
             jsonObject.put("code", e.code);
             jsonObject.put("msg", e.message);
         }
-        
+
         return jsonObject;
     }
 }

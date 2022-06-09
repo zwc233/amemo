@@ -55,7 +55,8 @@ public class AccountService {
     public String signIn(String username, String password) throws AccountException {
         System.out.println("signIn: " + username);
         Query query = new Query(Criteria.where("username").is(username))
-                            .addCriteria(Criteria.where("password").is(password));        
+                            .addCriteria(Criteria.where("password").is(password)); 
+        query.fields().exclude("").exclude("password");       
         if (mongoTemplate.findOne(query, User.class) == null) {
             throw new AccountException("400", "Incorrect username or password.");
         } else {

@@ -69,21 +69,21 @@ public class GroupService {
             mongoTemplate.save(user);
 
             if (group.owner.equals(user.username)) {
-                List<String> memberIds = new ArrayList<>();
-                for (String memberId : group.members) {
-                    memberIds.add(memberId); 
+                List<String> memberNames = new ArrayList<>();
+                for (String memberName : group.members) {
+                    memberNames.add(memberName); 
                 }
-                for (String adminId : group.admins) {
-                    memberIds.add(adminId);
+                for (String adminName : group.admins) {
+                    memberNames.add(adminName);
                 }
-                for (User member : accountService.findUserByUsername(memberIds)) {
+                for (User member : accountService.findUserByUsername(memberNames)) {
                     member.joinedGroups.remove(group);
                     mongoTemplate.save(member);
                 }
                 mongoTemplate.remove(group);
             } else {
-                group.members.remove(user.id);
-                group.members.remove(user.id);
+                group.members.remove(user.username);
+                group.members.remove(user.username);
                 mongoTemplate.save(group);
             }
         } catch (Exception e) {
@@ -99,11 +99,12 @@ public class GroupService {
                 throw new GroupException("400", "You can't follow yourself!");
             }
             if (specialInterest) {
-                follower.reminderConfig.paticularInterests.add(new FollowRecord(followee.id, group.id));
+                follower.reminderConfig.paticularInterests.add(new FollowRecord(followee.username, group.id));
             } else {
-                follower.reminderConfig.followedUsers.add(new FollowRecord(followee.id, group.id));
+                follower.reminderConfig.followedUsers.add(new FollowRecord(followee.username, group.id));
             }
             mongoTemplate.save(follower);
+            followee.reminderConfig.followers.add(follower.username);
         } catch (Exception e) {
             throw new GroupException("401", "Failed to follow user due to: " + e.getMessage());
         }

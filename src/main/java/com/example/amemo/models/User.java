@@ -66,6 +66,9 @@ public class User {
         @Field("followed_users")
         public Set<FollowRecord> followedUsers;
 
+        @Field("followers")
+        public Set<String> followers;
+
         @Field("specially_noted_memos")
         @DBRef(lazy = true)
         public Set<Memo> emphasizedMemos;
@@ -78,6 +81,7 @@ public class User {
             this.globalLevel          =  MUTE;
             this.paticularInterests   =  new HashSet<>();
             this.followedUsers        =  new HashSet<>();
+            this.followers            =  new HashSet<>();
             this.emphasizedMemos      =  new HashSet<>();
             this.notedMemos           =  new HashSet<>();
         }

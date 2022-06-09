@@ -29,7 +29,7 @@ public class MemoService {
     public void createMemo(User user, Group group, Memo memo) throws MemoException {
         System.out.println("createMemo: " + user.username + ", " + group.name + ", " + memo.title);
         try {
-            memo.creator = user.id;
+            memo.creator = user.username;
             memo.group = group.id;
             mongoTemplate.save(memo);
             

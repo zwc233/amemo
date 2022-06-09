@@ -1,5 +1,7 @@
 package com.example.amemo;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,5 +22,11 @@ public class Utils extends AppCompatActivity{
         if (useStatusBarColor) {
             activity.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         }
+    }
+
+    public static void startNoteAfter(long mSeconds, Context c) {
+        Intent intentS = new Intent(c, ReminderService.class);
+        intentS.putExtra("passedSeconds",mSeconds);
+        c.startService(intentS);
     }
 }

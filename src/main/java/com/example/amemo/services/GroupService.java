@@ -29,6 +29,7 @@ public class GroupService {
             group.owner = user.username;
             mongoTemplate.save(group);
             user.joinedGroups.add(group);
+            System.out.println(user.id);
             mongoTemplate.save(user);
         } catch (Exception e) {
             throw new GroupException("401", "Failed to create group due to: " + e.getMessage());
@@ -45,7 +46,7 @@ public class GroupService {
             }
             group.members.add(invitee.username);
             for (Memo memo : invitee.createdMemos) {
-                group.memos.add(memo);
+                group.memos.add(memo.id);
             }
             mongoTemplate.save(group);
             invitee.joinedGroups.add(group);
@@ -99,12 +100,13 @@ public class GroupService {
                 throw new GroupException("400", "You can't follow yourself!");
             }
             if (specialInterest) {
-                follower.reminderConfig.paticularInterests.add(new FollowRecord(followee.username, group.id));
+                follower.reminderConfig.particularInterests.add(new FollowRecord(followee.username, group.id));
             } else {
                 follower.reminderConfig.followedUsers.add(new FollowRecord(followee.username, group.id));
             }
             mongoTemplate.save(follower);
             followee.reminderConfig.followers.add(follower.username);
+            mongoTemplate.save(followee);
         } catch (Exception e) {
             throw new GroupException("401", "Failed to follow user due to: " + e.getMessage());
         }

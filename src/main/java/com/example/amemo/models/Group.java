@@ -4,7 +4,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
@@ -29,8 +28,7 @@ public class Group {
     public Set<String> members;
 
     @Field("memos")
-    @DBRef
-    public Set<Memo> memos;
+    public Set<String> memos;
 
     public Group(String name, String description) {
         this.name         =  name;

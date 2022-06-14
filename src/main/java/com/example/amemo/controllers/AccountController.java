@@ -44,7 +44,7 @@ public class AccountController {
             jsonObject.put("code", "200");
             jsonObject.put("msg", "Successfully signed in!");
             jsonObject.put("token", token);
-            jsonObject.put("user", user);
+            jsonObject.put("info", user);
         } catch (AccountException e) {
             jsonObject.put("code", e.code);
             jsonObject.put("msg", e.message);

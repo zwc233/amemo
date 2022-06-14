@@ -35,7 +35,7 @@ public class MemoController {
         
         try {
             String username = accountService.validate(token);
-            User user = accountService.findUserByUsername(username);
+            User user = accountService.getFullUserInfo(username);
             Memo memo = new Memo(title, content, when, cycle);
             Group group = groupService.findGroupById(groupId);
             memoService.createMemo(user, group, memo);
@@ -63,7 +63,7 @@ public class MemoController {
 
         try {
             String username = accountService.validate(token);
-            User user = accountService.findUserByUsername(username);
+            User user = accountService.getFullUserInfo(username);
             Group group = groupService.findGroupById(groupId);
             Memo memo = memoService.findMemoById(memoId);
             memoService.deleteMemo(user, group, memo);
@@ -90,7 +90,7 @@ public class MemoController {
 
         try {
             String username = accountService.validate(token);
-            User user = accountService.findUserByUsername(username);
+            User user = accountService.getFullUserInfo(username);
             Memo memo = memoService.findMemoById(memoId);
             memoService.noteMemo(user, memo, level > 0);
             jsonObject.put("code", "200");
@@ -113,7 +113,7 @@ public class MemoController {
 
         try {
             String username = accountService.validate(token);
-            User user = accountService.findUserByUsername(username);
+            User user = accountService.getFullUserInfo(username);
             Memo memo = memoService.findMemoById(memoId);
             memoService.unnoteMemo(user, memo);
             jsonObject.put("code", "200");

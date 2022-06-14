@@ -29,7 +29,7 @@ public class GroupController {
 
         try {
             String username = accountService.validate(token);
-            User user = accountService.findUserByUsername(username);
+            User user = accountService.getFullUserInfo(username);
             Group group = new Group(name, description);
             groupService.createGroup(user, group);
             jsonObject.put("code", "200");
@@ -53,8 +53,8 @@ public class GroupController {
 
         try {
             String username = accountService.validate(token);
-            User invitor = accountService.findUserByUsername(username);
-            User invitee = accountService.findUserByUsername(inviteeName);
+            User invitor = accountService.getFullUserInfo(username);
+            User invitee = accountService.getFullUserInfo(inviteeName);
             Group group  = groupService.findGroupById(groupId);
             groupService.inviteToGroup(invitor, invitee, group);
             jsonObject.put("code", "200");
@@ -77,8 +77,8 @@ public class GroupController {
 
         try {
             String username = accountService.validate(token);
-            User follower = accountService.findUserByUsername(username);
-            User followee = accountService.findUserByUsername(followeeName);
+            User follower = accountService.getFullUserInfo(username);
+            User followee = accountService.getFullUserInfo(followeeName);
             Group group = groupService.findGroupById(groupId);
             groupService.follow(follower, followee, group, level > 0);
             jsonObject.put("code", "200");

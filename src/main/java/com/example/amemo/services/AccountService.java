@@ -56,7 +56,7 @@ public class AccountService {
         System.out.println("signIn: " + username);
         Query query = new Query(Criteria.where("username").is(username))
                             .addCriteria(Criteria.where("password").is(password)); 
-        query.fields().exclude("").exclude("password");       
+        query.fields().exclude("id").exclude("password");       
         if (mongoTemplate.findOne(query, User.class) == null) {
             throw new AccountException("400", "Incorrect username or password.");
         } else {
@@ -66,6 +66,7 @@ public class AccountService {
             String oldToken = user2Token.get(username);
             if (oldToken != null) {
                 token2User.remove(oldToken);
+                SubscribeHandler.removeSession(username);
             }
             user2Token.put(username, token);
             
@@ -103,8 +104,9 @@ public class AccountService {
         query.fields().exclude("id", "password");
         User user = mongoTemplate.findOne(query, User.class);
         if (user == null) {
-            throw new AccountException("205", "User not found. Account have been deactivated.");
+            throw new AccountException("205", "User not found. Account may have been deactivated.");
         } else {
+            mongoTemplate.save(user);
             return user;
         }
     }
@@ -114,13 +116,34 @@ public class AccountService {
         query.fields().exclude("id").exclude("password");
         User user = mongoTemplate.findOne(query, User.class);
         if (user == null) {
-            throw new AccountException("205", "User not found. Account have been deactivated.");
+            throw new AccountException("205", "User not found. Account may have been deactivated.");
+        } else {
+            return user;
+        }
+    }
+
+    public User getFullUserInfo(String username) throws AccountException {
+        Query query = new Query(Criteria.where("username").is(username));
+        User user = mongoTemplate.findOne(query, User.class);
+        if (user == null) {
+            throw new AccountException("205", "User not found. Account may have been deactivated.");
         } else {
             return user;
         }
     }
 
     public List<User> findUserByUsername(List<String> usernames) {
+        Query query = new Query();
+        query.fields().exclude("id").exclude("password");
+        Criteria criteria = new Criteria();
+        for (String username : usernames) {
+            criteria.orOperator(Criteria.where("username").is(username));
+        }
+        query.addCriteria(criteria);
+        return mongoTemplate.find(query, User.class);
+    }
+
+    public List<User> getFullUserInfo(List<String> usernames) {
         Query query = new Query();
         Criteria criteria = new Criteria();
         for (String username : usernames) {

@@ -60,8 +60,8 @@ public class User {
         @Field("global_level")
         public int globalLevel;
 
-        @Field("paticular_interests")
-        public Set<FollowRecord> paticularInterests;
+        @Field("particular_interests")
+        public Set<FollowRecord> particularInterests;
 
         @Field("followed_users")
         public Set<FollowRecord> followedUsers;
@@ -79,7 +79,7 @@ public class User {
 
         public ReminderConfig() {
             this.globalLevel          =  MUTE;
-            this.paticularInterests   =  new HashSet<>();
+            this.particularInterests   =  new HashSet<>();
             this.followedUsers        =  new HashSet<>();
             this.followers            =  new HashSet<>();
             this.emphasizedMemos      =  new HashSet<>();

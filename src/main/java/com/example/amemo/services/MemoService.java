@@ -14,6 +14,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.example.amemo.models.Group;
 import com.example.amemo.models.Memo;
 import com.example.amemo.models.User;
+import com.example.amemo.models.User.ReminderConfig.FollowRecord;
 import com.example.amemo.services.AccountService.AccountException;
 import com.example.amemo.websocket.SubscribeHandler;
 
@@ -36,7 +37,7 @@ public class MemoService {
             user.createdMemos.add(memo);
             mongoTemplate.save(user);
             
-            group.memos.add(memo);
+            group.memos.add(memo.id);
             mongoTemplate.save(group);
 
             Set<String> memberSet = new HashSet<>(group.members);
@@ -46,10 +47,23 @@ public class MemoService {
             }
             for (String memberName : memberSet) {
                 if (!memberName.equals(user.username)) {
-                    JSONObject jsonObject = new JSONObject();
-                    jsonObject.put("type", "Create Memo");
-                    jsonObject.put("memo", memo);
-                    SubscribeHandler.sendToUser(memberName, jsonObject.toJSONString());
+                    User member = accountService.getFullUserInfo(memberName);
+                    for (FollowRecord followRecord : member.reminderConfig.particularInterests) {
+                        if (followRecord.groupId.equals(group.id) && followRecord.userId.equals(user.username)) {
+                            JSONObject jsonObject = new JSONObject();
+                            jsonObject.put("type", "Create Memo");
+                            jsonObject.put("memo", memo);
+                            SubscribeHandler.sendToUser(memberName, jsonObject.toJSONString());
+                        }
+                    }
+                    for (FollowRecord followRecord : member.reminderConfig.followedUsers) {
+                        if (followRecord.groupId.equals(group.id) && followRecord.userId.equals(user.username)) {
+                            JSONObject jsonObject = new JSONObject();
+                            jsonObject.put("type", "Create Memo");
+                            jsonObject.put("memo", memo);
+                            SubscribeHandler.sendToUser(memberName, jsonObject.toJSONString());
+                        }
+                    }
                 }
             }
         } catch (Exception e) {
@@ -68,7 +82,7 @@ public class MemoService {
                 user.reminderConfig.emphasizedMemos.remove(memo);
                 mongoTemplate.save(user);
 
-                group.memos.remove(memo);
+                group.memos.remove(memo.id);
                 mongoTemplate.save(group);
 
                 Set<String> memberSet = new HashSet<>(group.members);
@@ -79,7 +93,7 @@ public class MemoService {
                 for (String memberName : memberSet) {
                     if (!memberName.equals(user.username)) {
                         try {
-                            User member = accountService.findUserByUsername(memberName);
+                            User member = accountService.getFullUserInfo(memberName);
                             member.reminderConfig.notedMemos.remove(memo);
                             member.reminderConfig.emphasizedMemos.remove(memo);
                             mongoTemplate.save(member);

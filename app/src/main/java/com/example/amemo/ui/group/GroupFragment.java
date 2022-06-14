@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -12,11 +11,13 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.amemo.CacheHandler;
 import com.example.amemo.databinding.FragmentGroupBinding;
 
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class GroupFragment extends Fragment {
 
@@ -38,8 +39,14 @@ public class GroupFragment extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
         List<GroupItem> list = new ArrayList<>();
-        list.add(new GroupItem("第一小组","这是一段简单的描述，之后可以删除哦"));
-        list.add(new GroupItem("第二小组","这是一段简单的描述"));
+        CacheHandler.User user = CacheHandler.getUser();
+        for (String groupId : user.joinedGroups) {
+            CacheHandler.Group group = CacheHandler.getGroup(groupId);
+            if (group == null) {
+                // TODO: request for data
+            }
+            list.add(new GroupItem(group));
+        }
         GroupAdapter fruitAdapter = new GroupAdapter(list);
         recyclerView.setAdapter(fruitAdapter);
         return root;

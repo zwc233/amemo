@@ -49,7 +49,7 @@ public class AfterLoginActivity extends AppCompatActivity {
 
         ImageButton btnIcon = findViewById(R.id.iconButton);
         btnIcon.setOnClickListener(v ->{
-            Intent mainIntent = new Intent(AfterLoginActivity.this,   UserInfoActivity.class);
+            Intent mainIntent = new Intent(AfterLoginActivity.this, UserInfoActivity.class);
             AfterLoginActivity.this.startActivity(mainIntent);
             overridePendingTransition(R.anim.in_from_left,R.anim.out_to_right);
         });

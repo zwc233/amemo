@@ -8,52 +8,50 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="600dp"
-        android:orientation="vertical"
-        android:background="@drawable/corner_background" >
+        android:background="@drawable/corner_background"
+        android:orientation="vertical">
 
         <TextView
-            android:layout_marginTop="20dp"
             android:id="@+id/textCreateGroup"
             android:layout_width="125dp"
-            android:textSize="30sp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="@string/textCreateGroup" />
+            android:layout_marginTop="20dp"
+            android:text="@string/textCreateGroup"
+            android:textSize="30sp" />
 
         <EditText
-            android:layout_marginTop="20dp"
             android:id="@+id/editTextMemoNoteDate"
             android:layout_width="300dp"
             android:layout_height="40dp"
             android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/bg_form_item"
             android:ems="10"
             android:hint="@string/inputGroupTitle"
-            android:background="@drawable/bg_form_item"
-            android:padding="10dp"
-            />
+            android:padding="10dp" />
 
         <EditText
-            android:layout_marginTop="20dp"
             android:id="@+id/editTextMemoTitle"
-            android:layout_gravity="center"
             android:layout_width="300dp"
             android:layout_height="300dp"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:gravity="top|left"
-            android:text=""
-            android:hint="@string/inputGroupContent"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
             android:background="@drawable/bg_form_item"
+            android:ems="10"
+            android:gravity="top|left"
+            android:hint="@string/inputGroupContent"
+            android:inputType="textPersonName"
             android:padding="10dp"
-            />
+            android:text="" />
 
 
         <Button
-            android:layout_marginTop="40dp"
             android:id="@+id/btnCreateNewGroup"
             android:layout_width="100dp"
-            android:layout_gravity="center"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="40dp"
             android:background="@drawable/submit_memo_shape"
             android:text="@string/btnCreateGroup" />
     </LinearLayout>

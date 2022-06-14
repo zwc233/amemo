@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.TextView;
 
 public class UserInfoActivity extends AppCompatActivity {
 
@@ -17,6 +18,9 @@ public class UserInfoActivity extends AppCompatActivity {
         if(actionBar!=null){
             actionBar.hide();
         }
+
+        TextView usernameText = findViewById(R.id.ig_name);
+        usernameText.setText(CacheHandler.getUser().username);
     }
 
     @Override

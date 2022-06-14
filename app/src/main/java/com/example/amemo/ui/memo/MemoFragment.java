@@ -1,5 +1,6 @@
 package com.example.amemo.ui.memo;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,8 +38,7 @@ public class MemoFragment extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
         List<MemoItem> list = new ArrayList<>();
-        list.add(new MemoItem("abc"));
-        list.add(new MemoItem("bcd\nDDD\nFFF\nJJJ\nKKK\nDDD\nWWW"));
+
         MemoAdapter fruitAdapter = new MemoAdapter(list);
         recyclerView.setAdapter(fruitAdapter);
         return root;

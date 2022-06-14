@@ -11,22 +11,17 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.amemo.CacheHandler;
 import com.example.amemo.R;
 
 import java.util.List;
 
 class GroupItem {
-    public String name;
-    public String content;
-    public GroupItem(String name, String content) {
-        this.name = name;
-        this.content = content;
-    }
+    public CacheHandler.Group group;
 
-    public String getName() {
-        return name;
+    public GroupItem(CacheHandler.Group group) {
+        this.group = group;
     }
-
 }
 
 
@@ -63,8 +58,8 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder>{
     @Override
     public void onBindViewHolder(@NonNull GroupAdapter.ViewHolder holder, int position) {
         GroupItem groupItem = groupItemList.get(position);
-        holder.groupName.setText(groupItem.getName());
-        holder.groupContent.setText(groupItem.content);
+        holder.groupName.setText(groupItem.group.name);
+        holder.groupContent.setText(groupItem.group.description);
 
 
         holder.itemView.setOnClickListener(v -> {
@@ -74,6 +69,7 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder>{
 
             Intent intent = new Intent();
             intent.setClass(v.getContext(), InGroupActivity.class);
+            intent.putExtra("groupId", groupItem.group.id);
             v.getContext().startActivity(intent);
             new Handler().postDelayed(new Runnable(){
                 public void run() {
@@ -86,10 +82,9 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder>{
 
         });
     }
+
     @Override
     public int getItemCount(){
         return groupItemList.size();
     }
-
-
 }

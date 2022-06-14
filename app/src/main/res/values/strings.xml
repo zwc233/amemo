@@ -18,7 +18,16 @@
 
     <string name="use_saved_token">使用保存的 token 登录…</string>
     <string name="request_failed">请求发送失败</string>
+    <string name="no_response">服务器未响应</string>
     <string name="response_parse_failure">返回消息解析失败</string>
+    <string name="invalid_token">token 已失效，请重新登录</string>
+    <string name="incorrect_username_or_password">用户名或密码不正确</string>
+    <string name="inconsistent_password">两次输入的密码需保持一致</string>
+    <string name="register_success">注册成功！</string>
+    <string name="register_failure">注册失败，用户名重复</string>
+    <string name="create_group_failure">创建群组失败</string>
+    <string name="create_group_success">创建群组成功！</string>
+    <string name="select_group_hint">请选择要发布的群组</string>
 
     <!-- Preference Titles -->
     <string name="messages_header">Messages</string>

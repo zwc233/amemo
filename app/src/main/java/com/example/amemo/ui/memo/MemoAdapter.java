@@ -48,10 +48,10 @@ public class MemoAdapter extends RecyclerView.Adapter<MemoAdapter.ViewHolder>{
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         MemoItem memo = memoList.get(position);
-        holder.memoName.setText(memo.getName());
+        holder.memoName.setText(memo.memo.title);
         holder.memoName.measure(0,0);
         final float scale = parentIn.getContext().getResources().getDisplayMetrics().density;
-        holder.linearLayout.getLayoutParams().height = (int) (holder.memoName.getMeasuredHeight() * 1 + 100);
+        holder.linearLayout.getLayoutParams().height = (int) (holder.memoName.getMeasuredHeight() + 100);
     }
     @Override
     public int getItemCount(){

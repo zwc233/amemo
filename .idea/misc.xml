@@ -20,12 +20,15 @@
         <entry key="..\:/Program2022/MPD/amemo/app/src/main/res/drawable/round_shape_edit_text.xml" value="0.1725" />
         <entry key="..\:/Program2022/MPD/amemo/app/src/main/res/drawable/sumbit_memo_shape.xml" value="0.223" />
         <entry key="..\:/Program2022/MPD/amemo/app/src/main/res/layout/activity_after_login.xml" value="0.16666666666666666" />
-        <entry key="..\:/Program2022/MPD/amemo/app/src/main/res/layout/activity_in_group.xml" value="0.1" />
+        <entry key="..\:/Program2022/MPD/amemo/app/src/main/res/layout/activity_all_member.xml" value="0.1983695652173913" />
+        <entry key="..\:/Program2022/MPD/amemo/app/src/main/res/layout/activity_in_group.xml" value="0.22" />
         <entry key="..\:/Program2022/MPD/amemo/app/src/main/res/layout/activity_main.xml" value="0.22" />
         <entry key="..\:/Program2022/MPD/amemo/app/src/main/res/layout/activity_register_user.xml" value="0.17604166666666668" />
         <entry key="..\:/Program2022/MPD/amemo/app/src/main/res/layout/activity_user_info.xml" value="0.17552083333333332" />
         <entry key="..\:/Program2022/MPD/amemo/app/src/main/res/layout/bottom_create_group_layout.xml" value="0.23385416666666667" />
         <entry key="..\:/Program2022/MPD/amemo/app/src/main/res/layout/bottom_create_memo_layout.xml" value="0.1" />
+        <entry key="..\:/Program2022/MPD/amemo/app/src/main/res/layout/bottom_invite_user_layout.xml" value="0.3707936507936508" />
+        <entry key="..\:/Program2022/MPD/amemo/app/src/main/res/layout/bottom_see_members_layout.xml" value="0.1983695652173913" />
         <entry key="..\:/Program2022/MPD/amemo/app/src/main/res/layout/content_in_group.xml" value="0.12447916666666667" />
         <entry key="..\:/Program2022/MPD/amemo/app/src/main/res/layout/fragment_dashboard.xml" value="0.23007246376811594" />
         <entry key="..\:/Program2022/MPD/amemo/app/src/main/res/layout/fragment_group.xml" value="0.26197916666666665" />
@@ -34,6 +37,7 @@
         <entry key="..\:/Program2022/MPD/amemo/app/src/main/res/layout/fragment_notifications.xml" value="0.20516304347826086" />
         <entry key="..\:/Program2022/MPD/amemo/app/src/main/res/layout/fragment_settings.xml" value="0.30117753623188404" />
         <entry key="..\:/Program2022/MPD/amemo/app/src/main/res/layout/group_item.xml" value="0.22916666666666666" />
+        <entry key="..\:/Program2022/MPD/amemo/app/src/main/res/layout/member_item.xml" value="0.1983695652173913" />
         <entry key="..\:/Program2022/MPD/amemo/app/src/main/res/layout/memo_item.xml" value="0.20677083333333332" />
         <entry key="..\:/Program2022/MPD/amemo/app/src/main/res/layout/settings_activity.xml" value="0.30416666666666664" />
         <entry key="..\:/Program2022/MPD/amemo/app/src/main/res/layout/user_info_item_layout.xml" value="0.19927536231884058" />

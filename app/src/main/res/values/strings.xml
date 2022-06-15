@@ -58,4 +58,12 @@
     <string name="registerPwd">请输入密码</string>
     <string name="registerUsrName">请输入用户名</string>
     <string name="registerText">注册用户</string>
+    <string name="invite_user">邀请用户</string>
+    <string name="InputGroupIDText">请输入群ID</string>
+    <string name="InputUserIDText">请输入用户ID</string>
+    <string name="inviteText">邀请</string>
+    <string name="createNewMemo">新建</string>
+    <string name="inviteNewUser">邀请</string>
+    <string name="strongRemind">强关心</string>
+    <string name="Remind">提醒</string>
 </resources>

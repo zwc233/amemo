@@ -16,8 +16,6 @@ public class AlarmReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         //TODO 设置提醒后的事件
-
-
         Toast.makeText(context, "您设置的时间到了！",
                 Toast.LENGTH_SHORT).show();
         playRing(context);

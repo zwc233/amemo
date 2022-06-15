@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/memo_linear_layout"
     android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="10dp"
+    android:layout_height="100dp"
     android:background="@drawable/memo_shape"
     android:padding="15dp"
+    android:gravity="center"
     >
     <TextView
         android:layout_width="wrap_content"
@@ -13,6 +15,19 @@
         android:id="@+id/memo_name"
         android:textSize="17sp"
         android:textColor="#000000"
+        android:layout_weight="1"
         />
+
+
+    <ImageView
+        android:id="@+id/remindLevelImage"
+        android:layout_width="20dp"
+        android:layout_height="wrap_content"
+        android:scaleType="center"
+        android:scaleX="1.4"
+        android:scaleY="1.4"
+        android:layout_marginEnd="20dp"
+        android:layout_weight="0"
+        app:srcCompat="@drawable/ic_baseline_notifications_off_24" />
 
 </LinearLayout>

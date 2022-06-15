@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
         if (actionBar!=null){
             actionBar.hide();
         }
-        
+
         //TODO 调用示例
         Utils.startNoteAfter(2000,MainActivity.this);
 
@@ -64,52 +64,58 @@ public class MainActivity extends AppCompatActivity {
 
         ImageButton btnLogin = findViewById(R.id.login_btn);
         btnLogin.setOnClickListener(v -> {
-            try {
-                gotResponse.lock();
-                btnLogin.setEnabled(false);
-                JSONObject jsonObject = new JSONObject();
-                jsonObject.put("username", usernameInput.getText().toString());
-                jsonObject.put("password", passwordInput.getText().toString());
-                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
-                        Request.Method.POST,
-                        UrlUtils.makeHttpRequest(UrlUtils.signInUrl),
-                        jsonObject,
-                        (JSONObject response) -> {
-                            try {
-                                Toast.makeText(this,
-                                        response.getString("msg"),
-                                        Toast.LENGTH_SHORT).show();
-                                String code = response.getString("code");
-                                if (code.equals("200")) {
-                                    String token = response.getString("token");
-                                    savedInstanceState.putString("token", token);
-                                    Intent intent = new Intent();
-                                    intent.setClass(
-                                            MainActivity.this,
-                                            AfterLoginActivity.class);
-                                    startActivity(intent);
-                                }
-                            } catch (JSONException e) {
-                                Toast.makeText(this,
-                                        R.string.response_parse_failure,
-                                        Toast.LENGTH_SHORT).show();
-                            }
-                        },
-                        error -> {
-                            Toast.makeText(this,
-                                    error.getMessage(),
-                                    Toast.LENGTH_SHORT).show();
-                        }
-                );
-                requestQueue.add(jsonObjectRequest);
-            } catch (JSONException e) {
-                Toast.makeText(this,
-                        R.string.request_failed,
-                        Toast.LENGTH_SHORT).show();
-            } finally {
-                btnLogin.setEnabled(true);
-                gotResponse.unlock();
-            }
+
+            Intent intent = new Intent();
+            intent.setClass(
+                    MainActivity.this,
+                    AfterLoginActivity.class);
+            startActivity(intent);
+//            try {
+//                gotResponse.lock();
+//                btnLogin.setEnabled(false);
+//                JSONObject jsonObject = new JSONObject();
+//                jsonObject.put("username", usernameInput.getText().toString());
+//                jsonObject.put("password", passwordInput.getText().toString());
+//                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+//                        Request.Method.POST,
+//                        UrlUtils.makeHttpRequest(UrlUtils.signInUrl),
+//                        jsonObject,
+//                        (JSONObject response) -> {
+//                            try {
+//                                Toast.makeText(this,
+//                                        response.getString("msg"),
+//                                        Toast.LENGTH_SHORT).show();
+//                                String code = response.getString("code");
+//                                if (code.equals("200")) {
+//                                    String token = response.getString("token");
+//                                    savedInstanceState.putString("token", token);
+//                                    Intent intent = new Intent();
+//                                    intent.setClass(
+//                                            MainActivity.this,
+//                                            AfterLoginActivity.class);
+//                                    startActivity(intent);
+//                                }
+//                            } catch (JSONException e) {
+//                                Toast.makeText(this,
+//                                        R.string.response_parse_failure,
+//                                        Toast.LENGTH_SHORT).show();
+//                            }
+//                        },
+//                        error -> {
+//                            Toast.makeText(this,
+//                                    error.getMessage(),
+//                                    Toast.LENGTH_SHORT).show();
+//                        }
+//                );
+//                requestQueue.add(jsonObjectRequest);
+//            } catch (JSONException e) {
+//                Toast.makeText(this,
+//                        R.string.request_failed,
+//                        Toast.LENGTH_SHORT).show();
+//            } finally {
+//                btnLogin.setEnabled(true);
+//                gotResponse.unlock();
+//            }
         });
 
 //        String token = savedInstanceState.getString("token");

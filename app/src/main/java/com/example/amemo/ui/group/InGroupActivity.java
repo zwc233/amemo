@@ -5,15 +5,21 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
+import com.example.amemo.AfterLoginActivity;
 import com.example.amemo.CustomBottomDialog;
+import com.example.amemo.InviteUserDialog;
+import com.example.amemo.MainActivity;
 import com.example.amemo.R;
+import com.example.amemo.SeeAllMemberDialog;
 import com.example.amemo.Utils;
+import com.example.amemo.allMemberActivity;
 import com.example.amemo.ui.memo.MemoAdapter;
 import com.example.amemo.ui.memo.MemoItem;
 import com.google.android.material.snackbar.Snackbar;
@@ -41,6 +47,30 @@ public class InGroupActivity extends AppCompatActivity {
                 customBottomDialog.show();
                 overridePendingTransition(R.anim.anim_slide_in_bottom,R.anim.no_anim);
 
+            }
+        });
+
+        ImageButton btn2 = findViewById(R.id.btnInvite);
+        btn2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                InviteUserDialog customBottomDialog = new InviteUserDialog(InGroupActivity.this);
+                customBottomDialog.show();
+                overridePendingTransition(R.anim.anim_slide_in_bottom,R.anim.no_anim);
+
+            }
+        });
+
+        ImageButton btn3 = findViewById(R.id.btnSeeMember);
+        btn3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SeeAllMemberDialog customBottomDialog = new SeeAllMemberDialog(InGroupActivity.this);
+                customBottomDialog.show();
+                overridePendingTransition(R.anim.anim_slide_in_bottom,R.anim.no_anim);
+//                Intent intent = new Intent();
+//                intent.setClass(InGroupActivity.this, allMemberActivity.class);
+//                startActivity(intent);
             }
         });
 

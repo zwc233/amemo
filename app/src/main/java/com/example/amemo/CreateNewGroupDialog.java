@@ -72,7 +72,7 @@ public class CreateNewGroupDialog extends Dialog {
                                             R.string.create_group_success,
                                             Toast.LENGTH_SHORT).show();
                                     CacheHandler.saveGroup(response);
-                                } else if (response.getString("code").equals("401")) {
+                                } else if (response.getString("code").equals("400")) {
                                     Toast.makeText(getContext(),
                                             R.string.invalid_token,
                                             Toast.LENGTH_SHORT).show();

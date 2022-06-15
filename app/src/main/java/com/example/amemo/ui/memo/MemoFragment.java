@@ -38,7 +38,7 @@ public class MemoFragment extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
         List<MemoItem> list = new ArrayList<>();
-
+        // TODO: request for memo data, if necessary
         MemoAdapter fruitAdapter = new MemoAdapter(list);
         recyclerView.setAdapter(fruitAdapter);
         return root;

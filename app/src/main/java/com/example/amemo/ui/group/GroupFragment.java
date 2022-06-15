@@ -11,6 +11,8 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.Volley;
 import com.example.amemo.CacheHandler;
 import com.example.amemo.databinding.FragmentGroupBinding;
 
@@ -18,6 +20,8 @@ import com.example.amemo.databinding.FragmentGroupBinding;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class GroupFragment extends Fragment {
 
@@ -33,6 +37,10 @@ public class GroupFragment extends Fragment {
 
         // final TextView textView = binding.textGroup;
         // groupViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+
+        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
+
+        Lock gotResponse = new ReentrantLock();
 
         final RecyclerView recyclerView = binding.viewGroup;
 

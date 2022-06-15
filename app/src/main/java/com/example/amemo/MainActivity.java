@@ -4,12 +4,16 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlarmManager;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.media.AudioManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.provider.Settings;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -126,43 +130,25 @@ public class MainActivity extends AppCompatActivity {
 //            startActivity(intent);
 //        }
 
+        final AudioManager audioManager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
+        int a = audioManager.getStreamMaxVolume(AudioManager.STREAM_RING);
+        int c = audioManager.getStreamVolume(AudioManager.STREAM_RING);
+
         Button btnSet = findViewById(R.id.findPwd);
-        calendar = Calendar.getInstance();
         btnSet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-                calendar.setTimeInMillis(System.currentTimeMillis());
-                int mHour = calendar.get(Calendar.HOUR_OF_DAY);
-                int mMinute = calendar.get(Calendar.MINUTE);
-                new TimePickerDialog(MainActivity.this,
-                        new TimePickerDialog.OnTimeSetListener() {
-                            @Override
-                            public void onTimeSet(TimePicker view,
-                                                  int hourOfDay, int minute) {
-                                // TODO Auto-generated method stub
-                                calendar.setTimeInMillis(System.currentTimeMillis());
-                                calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
-                                calendar.set(Calendar.MINUTE, minute);
-                                calendar.set(Calendar.SECOND, 0);
-                                calendar.set(Calendar.MILLISECOND, 0);
-                                // 建立Intent和PendingIntent来调用目标组件
-                                Intent intent = new Intent(MainActivity.this, AlarmReceiver.class);
-                                PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 0, intent, 0);
-                                // 获取闹钟管理的实例
-                                AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
-                                // 设置闹钟
-                                am.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
-                                // 设置周期闹钟
-                                am.setRepeating(AlarmManager.RTC_WAKEUP,
-                                        System.currentTimeMillis() + (10 * 1000),
-                                        (24 * 60 * 60 * 1000), pendingIntent);
-                                String tmpS = "设置闹钟时间为" + format(hourOfDay)
-                                        + ":" + format(minute);
-                                Toast.makeText(MainActivity.this, tmpS,
-                                        Toast.LENGTH_SHORT).show();
-                            }
-                        }, mHour, mMinute, true).show();
+                NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && !notificationManager.isNotificationPolicyAccessGranted()) {
+                    startActivity(new Intent(Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS));
+                }else{
+                    notificationManager.setInterruptionFilter(NotificationManager.INTERRUPTION_FILTER_ALL);
+                    Toast.makeText(MainActivity.this, "this " + audioManager.getRingerMode(), Toast.LENGTH_SHORT).show();
+                    audioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
+                    audioManager.setStreamVolume(AudioManager.STREAM_NOTIFICATION,10,AudioManager.FLAG_SHOW_UI);
+                }
+
             }
         });
 

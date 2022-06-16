@@ -90,7 +90,6 @@ public class CacheHandler {
         public String title;
         public String content;
         public long when;
-        public long cycle;
 
         public Memo(JSONObject jsonObject) throws JSONException {
             this.id = jsonObject.getString("id");
@@ -99,7 +98,6 @@ public class CacheHandler {
             this.title = jsonObject.getString("title");
             this.content = jsonObject.getString("content");
             this.when = jsonObject.getLong("when");
-            this.cycle = jsonObject.getLong("cycle");
         }
 
         @Override
@@ -156,6 +154,7 @@ public class CacheHandler {
     public static class User {
         public String username;
         public int globalLevel;
+        public Set<String> createdMemos = new HashSet<>();
         public Set<String> joinedGroups = new HashSet<>();
         public Set<FollowRecord> particularInterests = new HashSet<>();
         public Set<FollowRecord> followedUsers = new HashSet<>();
@@ -177,9 +176,14 @@ public class CacheHandler {
             this.username = userObj.getString("username");
             this.globalLevel = cfg.getInt("globalLevel");
 
+            JSONArray createdMemos = userObj.getJSONArray("createdMemos");
+            for (int i = 0; i < createdMemos.length(); i++) {
+                this.createdMemos.add(createdMemos.getJSONObject(i).getString("id"));
+            }
+
             JSONArray joinedGroups = userObj.getJSONArray("joinedGroups");
             for (int i = 0; i < joinedGroups.length(); i++) {
-                this.joinedGroups.add(joinedGroups.getString(i));
+                this.joinedGroups.add(joinedGroups.getJSONObject(i).getString("id"));
             }
 
             JSONArray particularInterests = cfg.getJSONArray("particularInterests");

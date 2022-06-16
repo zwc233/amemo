@@ -9,41 +9,98 @@
     >
 
     <LinearLayout
-        android:id="@+id/linearLayoutInGroup"
         android:layout_width="match_parent"
-        android:layout_marginTop="40dp"
-        android:layout_height="40dp"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/recyclerViewInGroup"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <Space
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
-
-        <ImageButton
-            android:id="@+id/btnCreateNewMemo"
-            android:layout_width="40dp"
+        <LinearLayout
+            android:id="@+id/linearLayoutInGroup"
+            android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:layout_weight="1"
-            android:background="@drawable/add_button_selector"
-            android:contentDescription="@string/todo"
-            android:padding="10dp"
-            android:scaleType="centerInside"
-            app:srcCompat="@drawable/ic_baseline_add_24"
-            tools:ignore="SpeakableTextPresentCheck" />
+            android:layout_marginTop="40dp"
+            android:orientation="horizontal"
+            android:weightSum="2"
+            >
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="0"
+                android:layout_marginStart="10dp"
+                android:textSize="27sp"
+                android:text="@string/createNewMemo" />
+
+            <ImageButton
+                android:id="@+id/btnCreateNewMemo"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_weight="0"
+                android:layout_marginEnd="30dp"
+                android:background="@drawable/add_button_selector"
+                android:contentDescription="@string/todo"
+                android:scaleType="centerInside"
+                app:srcCompat="@drawable/ic_baseline_add_comment_24"
+                tools:ignore="SpeakableTextPresentCheck" />
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0"
+                android:textSize="27sp"
+                android:text="查看成员" />
+
+            <ImageButton
+                android:id="@+id/btnSeeMember"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_weight="0"
+                android:layout_marginEnd="30dp"
+                android:background="@drawable/add_button_selector"
+                android:scaleType="centerInside"
+                app:srcCompat="@drawable/ic_baseline_people_outline_24" />
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="0"
+                android:textSize="27sp"
+                android:text="@string/inviteNewUser" />
+
+            <ImageButton
+                android:id="@+id/btnInvite"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_weight="0"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/add_button_selector"
+                android:contentDescription="@string/todo"
+                android:scaleType="centerInside"
+                app:srcCompat="@drawable/ic_baseline_group_add_24"
+                tools:ignore="SpeakableTextPresentCheck" />
+
+
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewInGroup"
+            android:layout_width="match_parent"
+            android:layout_height="670dp"
+            android:layout_marginTop="10dp" />
 
     </LinearLayout>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:layout_marginTop="10dp"
-        android:id="@+id/recyclerViewInGroup"
-        android:layout_width="match_parent"
-        android:layout_height="670dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayoutInGroup"
-        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

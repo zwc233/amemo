@@ -20,7 +20,9 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.loper7.date_time_picker.dialog.CardDatePickerDialog;
 
@@ -30,13 +32,19 @@ import org.json.JSONObject;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
 
 public class CustomBottomDialog extends Dialog {
 
-    public CustomBottomDialog(@NonNull Context context) {
+    String groupId;
+    long memoTimestamp = 0;
+
+    public CustomBottomDialog(@NonNull Context context, String groupId) {
         super(context, R.style.bottom_dialog_bg_style);
+        this.groupId = groupId;
     }
 
     @Override
@@ -49,12 +57,11 @@ public class CustomBottomDialog extends Dialog {
         setCancelable(true);
         setCanceledOnTouchOutside(true);
 
-        List<CacheHandler.Group> groups = new ArrayList<>(CacheHandler.groups.values());
-        SelectGroupAdapter adapter = new SelectGroupAdapter(getContext(), groups);
-        Spinner groupSelection = findViewById(R.id.GroupSelection);
-        groupSelection.setAdapter(adapter);
-
         RequestQueue requestQueue = Volley.newRequestQueue(getContext());
+
+        TextView memoTitle = findViewById(R.id.editTextMemoTitle);
+
+        TextView memoContent = findViewById(R.id.editTextMemoContent);
 
         EditText startTime = findViewById(R.id.editTextMemoNoteDate);
         startTime.setInputType(InputType.TYPE_NULL);
@@ -67,20 +74,72 @@ public class CustomBottomDialog extends Dialog {
                         String time = sdf.format(new Date(aLong));
                         timestamp.set(aLong);
                         startTime.setText(time);
+                        memoTimestamp = aLong;
                         return null;
                     }).build().show();
         });
 
         Button btn = findViewById(R.id.btnSubmitMemo);
         btn.setOnClickListener(v ->{
-            try {
-                JSONObject jsonObject = new JSONObject();
-                jsonObject.put("token", savedInstanceState.getString("token"));
-
-            } catch (JSONException e) {
-                Toast.makeText(getContext(), R.string.request_failed, Toast.LENGTH_SHORT).show();
-            }
-            CustomBottomDialog.this.dismiss();
+            requestQueue.add(
+                    new StringRequest(
+                            Request.Method.POST,
+                            UrlUtils.makeHttpUrl(UrlUtils.createMemoUrl),
+                            response -> {
+                                try {
+                                    JSONObject responseObj = new JSONObject(response);
+                                    System.out.println(responseObj.getString("msg"));
+                                    if (responseObj.getString("code").equals("200")) {
+                                        Toast.makeText(getContext(),
+                                                R.string.create_memo_success,
+                                                Toast.LENGTH_SHORT).show();
+                                        String memoId = responseObj.getString("id");
+                                        JSONObject memoObj = new JSONObject();
+                                        memoObj.put("id", memoId);
+                                        memoObj.put("creator", CacheHandler.getUser().username);
+                                        memoObj.put("group", groupId);
+                                        memoObj.put("title", memoTitle);
+                                        memoObj.put("content", memoContent);
+                                        memoObj.put("when", memoTimestamp);
+                                        CacheHandler.saveMemo(memoObj);
+                                        CacheHandler.user.createdMemos.add(memoId);
+                                    } else if (responseObj.getString("code").equals("400")) {
+                                        Toast.makeText(getContext(),
+                                                R.string.invalid_token,
+                                                Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        Toast.makeText(getContext(),
+                                                R.string.create_memo_failure,
+                                                Toast.LENGTH_SHORT).show();
+                                    }
+                                } catch (JSONException e) {
+                                    System.out.println(e.getMessage());
+                                    Toast.makeText(getContext(),
+                                            R.string.request_failed,
+                                            Toast.LENGTH_SHORT).show();
+                                }
+                                CustomBottomDialog.this.dismiss();
+                            },
+                            error -> {
+                                System.out.println(error.getMessage());
+                                Toast.makeText(getContext(),
+                                        R.string.no_response,
+                                        Toast.LENGTH_SHORT).show();
+                                CustomBottomDialog.this.dismiss();
+                            }
+                    ) {
+                        @Override
+                        protected Map<String, String> getParams() {
+                            Map<String, String> params = new HashMap<>();
+                            params.put("token", CacheHandler.getToken());
+                            params.put("groupId", groupId);
+                            params.put("title", memoTitle.getText().toString());
+                            params.put("content", memoContent.getText().toString());
+                            params.put("when", "" + memoTimestamp);
+                            return params;
+                        }
+                    }
+            );
         });
     }
 
@@ -96,6 +155,7 @@ public class CustomBottomDialog extends Dialog {
 
 }
 
+@Deprecated
 class SelectGroupAdapter extends BaseAdapter {
     final private Context context;
     final private List<CacheHandler.Group> groups;

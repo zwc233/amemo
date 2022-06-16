@@ -45,16 +45,16 @@
             android:padding="10dp"
             android:text="" />
 
-        <Spinner
-            android:id="@+id/GroupSelection"
-            android:layout_width="300dp"
-            android:layout_height="40dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/bg_form_item"
-            android:ems="10"
-            android:hint="@string/select_group_hint"
-            android:padding="10dp" />
+<!--        <Spinner-->
+<!--            android:id="@+id/GroupSelection"-->
+<!--            android:layout_width="300dp"-->
+<!--            android:layout_height="40dp"-->
+<!--            android:layout_gravity="center"-->
+<!--            android:layout_marginTop="20dp"-->
+<!--            android:background="@drawable/bg_form_item"-->
+<!--            android:ems="10"-->
+<!--            android:hint="@string/select_group_hint"-->
+<!--            android:padding="10dp" />-->
 
         <EditText
             android:id="@+id/editTextMemoContent"

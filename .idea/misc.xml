@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+<<<<<<< HEAD
         <entry key="..\:/21spring/MPD/proj/frontend/amemo/app/src/main/res/layout/activity_after_login.xml" value="0.264" />
         <entry key="..\:/21spring/MPD/proj/frontend/amemo/app/src/main/res/layout/activity_in_group.xml" value="0.18840579710144928" />
         <entry key="..\:/21spring/MPD/proj/frontend/amemo/app/src/main/res/layout/activity_main.xml" value="0.264" />
@@ -19,6 +20,8 @@
         <entry key="..\:/21spring/MPD/proj/frontend/amemo/app/src/main/res/layout/user_info_item_layout.xml" value="0.12335359675785208" />
         <entry key="..\:/21spring/MPD/proj/frontend/amemo/app/src/main/res/layout/user_info_title.xml" value="0.12335359675785208" />
         <entry key="..\:/21spring/MPD/proj/frontend/amemo/app/src/main/res/xml/root_preferences.xml" value="0.12335359675785208" />
+=======
+>>>>>>> de7228df1fb48b9f0d3d1baabbcfaa9eee013a89
         <entry key="..\:/Program2022/MPD/amemo/app/src/main/res/drawable/add_button_selector.xml" value="0.2425" />
         <entry key="..\:/Program2022/MPD/amemo/app/src/main/res/drawable/circle_shape_button.xml" value="0.1725" />
         <entry key="..\:/Program2022/MPD/amemo/app/src/main/res/drawable/corner_background.xml" value="0.2215" />
@@ -32,10 +35,22 @@
         <entry key="..\:/Program2022/MPD/amemo/app/src/main/res/drawable/round_shape_edit_text.xml" value="0.1725" />
         <entry key="..\:/Program2022/MPD/amemo/app/src/main/res/drawable/sumbit_memo_shape.xml" value="0.223" />
         <entry key="..\:/Program2022/MPD/amemo/app/src/main/res/layout/activity_after_login.xml" value="0.16666666666666666" />
+<<<<<<< HEAD
         <entry key="..\:/Program2022/MPD/amemo/app/src/main/res/layout/activity_in_group.xml" value="0.22" />
         <entry key="..\:/Program2022/MPD/amemo/app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="..\:/Program2022/MPD/amemo/app/src/main/res/layout/activity_user_info.xml" value="0.17552083333333332" />
         <entry key="..\:/Program2022/MPD/amemo/app/src/main/res/layout/bottom_create_memo_layout.xml" value="0.16666666666666666" />
+=======
+        <entry key="..\:/Program2022/MPD/amemo/app/src/main/res/layout/activity_all_member.xml" value="0.1983695652173913" />
+        <entry key="..\:/Program2022/MPD/amemo/app/src/main/res/layout/activity_in_group.xml" value="0.22" />
+        <entry key="..\:/Program2022/MPD/amemo/app/src/main/res/layout/activity_main.xml" value="0.22" />
+        <entry key="..\:/Program2022/MPD/amemo/app/src/main/res/layout/activity_register_user.xml" value="0.17604166666666668" />
+        <entry key="..\:/Program2022/MPD/amemo/app/src/main/res/layout/activity_user_info.xml" value="0.17552083333333332" />
+        <entry key="..\:/Program2022/MPD/amemo/app/src/main/res/layout/bottom_create_group_layout.xml" value="0.23385416666666667" />
+        <entry key="..\:/Program2022/MPD/amemo/app/src/main/res/layout/bottom_create_memo_layout.xml" value="0.1" />
+        <entry key="..\:/Program2022/MPD/amemo/app/src/main/res/layout/bottom_invite_user_layout.xml" value="0.3707936507936508" />
+        <entry key="..\:/Program2022/MPD/amemo/app/src/main/res/layout/bottom_see_members_layout.xml" value="0.1983695652173913" />
+>>>>>>> de7228df1fb48b9f0d3d1baabbcfaa9eee013a89
         <entry key="..\:/Program2022/MPD/amemo/app/src/main/res/layout/content_in_group.xml" value="0.12447916666666667" />
         <entry key="..\:/Program2022/MPD/amemo/app/src/main/res/layout/fragment_dashboard.xml" value="0.23007246376811594" />
         <entry key="..\:/Program2022/MPD/amemo/app/src/main/res/layout/fragment_group.xml" value="0.26197916666666665" />
@@ -44,6 +59,7 @@
         <entry key="..\:/Program2022/MPD/amemo/app/src/main/res/layout/fragment_notifications.xml" value="0.20516304347826086" />
         <entry key="..\:/Program2022/MPD/amemo/app/src/main/res/layout/fragment_settings.xml" value="0.30117753623188404" />
         <entry key="..\:/Program2022/MPD/amemo/app/src/main/res/layout/group_item.xml" value="0.22916666666666666" />
+        <entry key="..\:/Program2022/MPD/amemo/app/src/main/res/layout/member_item.xml" value="0.1983695652173913" />
         <entry key="..\:/Program2022/MPD/amemo/app/src/main/res/layout/memo_item.xml" value="0.20677083333333332" />
         <entry key="..\:/Program2022/MPD/amemo/app/src/main/res/layout/settings_activity.xml" value="0.30416666666666664" />
         <entry key="..\:/Program2022/MPD/amemo/app/src/main/res/layout/user_info_item_layout.xml" value="0.19927536231884058" />
@@ -55,7 +71,7 @@
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

@@ -42,44 +42,13 @@
 
     </LinearLayout>
     <!--    编辑界面，此处可以写成一个ItemGroup上传至com上-->
-    <com.example.amemo.widget.UserInfoItemGroup
-        android:id="@+id/ig_id"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        app:jt_visible="false"
-        app:paddingLeft="20dp"
-        app:edt_hint_content="3190102207"
-        app:title="ID号" />
 
     <com.example.amemo.widget.UserInfoItemGroup
         android:id="@+id/ig_name"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        app:edt_hint_content="修改昵称"
+        app:edt_hint_content="用户名"
         app:paddingLeft="@dimen/padding_left_and_right"
         app:title="张可攀" />
 
-    <com.example.amemo.widget.UserInfoItemGroup
-        android:id="@+id/ig_gender"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        app:edt_hint_content="性别"
-        app:paddingLeft="@dimen/padding_left_and_right"
-        app:title="男"/>
-
-    <com.example.amemo.widget.UserInfoItemGroup
-        android:id="@+id/ig_region"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        app:edt_hint_content="未选择"
-        app:paddingLeft="@dimen/padding_left_and_right"
-        app:title="常住地" />
-
-    <com.example.amemo.widget.UserInfoItemGroup
-        android:id="@+id/ig_brithday"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        app:edt_hint_content="未选择"
-        app:paddingLeft="@dimen/padding_left_and_right"
-        app:title="生日" />
 </LinearLayout>

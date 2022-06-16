@@ -3,7 +3,9 @@ package com.example.amemo;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.Gravity;
+import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
@@ -12,105 +14,105 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.android.volley.Cache;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.loper7.date_time_picker.dialog.CardDatePickerDialog;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CreateNewGroupDialog extends Dialog {
-    public CreateNewGroupDialog(@NonNull Context context) {
+public class InviteUserDialog extends Dialog {
+
+    public String groupId;
+
+    public InviteUserDialog(@NonNull Context context, String groupId) {
         super(context, R.style.bottom_dialog_bg_style);
+        this.groupId = groupId;
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.bottom_create_group_layout);
+        setContentView(R.layout.bottom_invite_user_layout);
         setWindowTheme();
         setCancelable(true);
         setCanceledOnTouchOutside(true);
 
         RequestQueue requestQueue = Volley.newRequestQueue(getContext());
 
-        EditText nameText = findViewById(R.id.editTextMemoNoteDate);
+        EditText inviteeNameText = findViewById(R.id.editTextInputUserID);
+        String inviteeName = inviteeNameText.getText().toString();
 
-        EditText descriptionText = findViewById(R.id.editTextMemoTitle);
-
-        Button btn = findViewById(R.id.btnCreateNewGroup);
-
-        btn.setOnClickListener(v -> {
+        Button btn = findViewById(R.id.btnInviteUser);
+        btn.setOnClickListener(v ->{
+            if (inviteeName.equals(CacheHandler.getUser().username)) {
+                Toast.makeText(getContext(),
+                        R.string.cannot_invite_yourself,
+                        Toast.LENGTH_SHORT).show();
+            }
             requestQueue.add(
                     new StringRequest(
                             Request.Method.POST,
-                            UrlUtils.makeHttpUrl(UrlUtils.createGroupUrl),
+                            UrlUtils.makeHttpUrl(UrlUtils.inviteUrl),
                             response -> {
                                 try {
                                     JSONObject responseObj = new JSONObject(response);
                                     System.out.println(responseObj.getString("msg"));
                                     if (responseObj.getString("code").equals("200")) {
                                         Toast.makeText(getContext(),
-                                                R.string.create_group_success,
+                                                R.string.invite_user_success,
                                                 Toast.LENGTH_SHORT).show();
-                                        String groupId = responseObj.getString("id");
-                                        JSONObject groupObj = new JSONObject();
-                                        groupObj.put("id", groupId);
-                                        groupObj.put("name", nameText.getText().toString());
-                                        groupObj.put("description", descriptionText.getText().toString());
-                                        groupObj.put("owner", CacheHandler.user.username);
-                                        groupObj.put("admins", new JSONArray());
-                                        groupObj.put("members", new JSONArray());
-                                        groupObj.put("memos", new JSONArray());
-                                        CacheHandler.saveGroup(groupObj);
-                                        CacheHandler.user.joinedGroups.add(groupId);
+                                        CacheHandler.getGroup(groupId).members.add(inviteeName);
+                                        // TODO: refresh recycler view adapter
                                     } else if (responseObj.getString("code").equals("400")) {
                                         Toast.makeText(getContext(),
-                                                R.string.invalid_token,
+                                                R.string.only_owner_can_invite,
                                                 Toast.LENGTH_SHORT).show();
-                                        // TODO: flush caches; route back to main activity
+                                    } else if (responseObj.getString("code").equals("402")) {
+                                        Toast.makeText(getContext(),
+                                                R.string.cannot_invite_yourself,
+                                                Toast.LENGTH_SHORT).show();
                                     } else {
                                         Toast.makeText(getContext(),
-                                                R.string.create_group_failure,
+                                                R.string.invite_user_failure,
                                                 Toast.LENGTH_SHORT).show();
                                     }
                                 } catch (JSONException e) {
+                                    System.out.println(e.getMessage());
                                     Toast.makeText(getContext(),
                                             R.string.response_parse_failure,
                                             Toast.LENGTH_SHORT).show();
                                 }
-                                CreateNewGroupDialog.this.dismiss();
+                                InviteUserDialog.this.dismiss();
                             },
                             error -> {
                                 System.out.println(error.getMessage());
                                 Toast.makeText(getContext(),
                                         R.string.no_response,
                                         Toast.LENGTH_SHORT).show();
-                                CreateNewGroupDialog.this.dismiss();
+                                InviteUserDialog.this.dismiss();
                             }
                     ) {
                         @Override
                         protected Map<String, String> getParams() {
                             Map<String, String> params = new HashMap<>();
-
-                            String name = nameText.getText().toString();
-                            String description = descriptionText.getText().toString();
-
                             params.put("token", CacheHandler.getToken());
-                            params.put("name", name);
-                            params.put("description", description);
-
+                            params.put("inviteeName", inviteeName);
+                            params.put("groupId", groupId);
                             return params;
                         }
                     }
             );
         });
-
     }
 
     private void setWindowTheme() {

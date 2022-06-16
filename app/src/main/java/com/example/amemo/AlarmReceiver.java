@@ -1,6 +1,7 @@
 package com.example.amemo;
 
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -8,10 +9,12 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Vibrator;
 import android.widget.Toast;
 
@@ -31,19 +34,30 @@ public class AlarmReceiver extends BroadcastReceiver {
     }
 
     public static void setUpNotification(Context c){
-        //设置点击以后跳转到的活动NotificationActivity
-        Intent intent=new Intent(c,MainActivity.class);
-        PendingIntent pi=PendingIntent.getActivity(c,0,intent,0);
-        NotificationManager manager=(NotificationManager)c.getSystemService(NOTIFICATION_SERVICE);
+        NotificationManager manager = (NotificationManager) c.getSystemService(NOTIFICATION_SERVICE);
 
-        Notification  notification=new Notification .Builder(c)
-                .setContentTitle("这是通知标题")
-                .setContentText("这是通知内容")
+        Intent intent = new Intent(c, AfterLoginActivity.class);
+        intent.putExtra("Notification",true);
+
+
+        String channelId = "whatever"; //根据业务执行
+        String channelName = "whatever content"; //这个是channelid 的解释，在安装的时候会展示给用户看
+        int importance = NotificationManager.IMPORTANCE_HIGH;
+
+        NotificationChannel notificationChannel = new NotificationChannel(channelId, channelName, importance);
+        notificationChannel.enableLights(true);
+        notificationChannel.setLightColor(Color.RED);
+
+        manager.createNotificationChannel(notificationChannel);
+
+        PendingIntent pendingIntent = PendingIntent.getActivity(c,1,intent,PendingIntent.FLAG_UPDATE_CURRENT);
+        Notification notification;
+        notification = new Notification.Builder(c,"whatever") //引用加上channelid
+                .setSmallIcon(R.drawable.ic_baseline_notification_important_24)
                 .setWhen(System.currentTimeMillis())
-                .setSmallIcon(R.mipmap.ic_launcher)
-                .setLargeIcon(BitmapFactory.decodeResource(c.getResources(),R.mipmap.ic_launcher))
-                .setContentIntent(pi)//点击以后可以进入通知具体内容
-                .setAutoCancel(true)//点击以后通知自动消失
+                .setContentTitle("随便")
+                .setContentText("随随便便写")
+                .setContentIntent(pendingIntent)
                 .build();
         manager.notify(1,notification);
     }

@@ -144,9 +144,14 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(new Intent(Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS));
                 }else{
                     notificationManager.setInterruptionFilter(NotificationManager.INTERRUPTION_FILTER_ALL);
-                    Toast.makeText(MainActivity.this, "this " + audioManager.getRingerMode(), Toast.LENGTH_SHORT).show();
-                    audioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
-                    audioManager.setStreamVolume(AudioManager.STREAM_NOTIFICATION,10,AudioManager.FLAG_SHOW_UI);
+//                    Toast.makeText(MainActivity.this, "this " + audioManager.getRingerMode(), Toast.LENGTH_SHORT).show();
+//                    audioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
+                    Utils.isNotificationEnabled(MainActivity.this);
+
+
+                    AutoStartHelper.getInstance().getAutoStartPermission(MainActivity.this);
+
+
                 }
 
             }

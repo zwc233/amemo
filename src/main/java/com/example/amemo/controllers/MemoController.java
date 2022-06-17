@@ -1,5 +1,7 @@
 package com.example.amemo.controllers;
 
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -92,7 +94,7 @@ public class MemoController {
             String username = accountService.validate(token);
             User user = accountService.getFullUserInfo(username);
             Memo memo = memoService.findMemoById(memoId);
-            memoService.noteMemo(user, memo, level > 0);
+            memoService.noteMemo(user, memo, level);
             jsonObject.put("code", "200");
             jsonObject.put("msg", "Successfully noted memo!");
         } catch (AccountException e) {
@@ -107,21 +109,34 @@ public class MemoController {
     }
 
     @CrossOrigin
-    @RequestMapping("/unnoteMemo")
-    public JSONObject unnoteMemo(String token, String memoId) {
+    @RequestMapping("/memoInfo")
+    public JSONObject getMemoInfo(String token, String mIds) {
         JSONObject jsonObject = new JSONObject();
+        String[] memoIds = mIds.split(":");
 
         try {
-            String username = accountService.validate(token);
-            User user = accountService.getFullUserInfo(username);
-            Memo memo = memoService.findMemoById(memoId);
-            memoService.unnoteMemo(user, memo);
+            accountService.validate(token);
+            ArrayList<JSONObject> groups = new ArrayList<>();
+            int numFound = 0;
+            for (String memoId : memoIds) {
+                JSONObject tmpObject = new JSONObject();
+                tmpObject.put("id", memoId);
+                try {
+                    Memo memo = memoService.findMemoById(memoId);
+                    tmpObject.put("code", "200");
+                    tmpObject.put("msg", "Found.");
+                    tmpObject.put("info", memo);
+                    numFound++;
+                } catch (MemoException e) {
+                    tmpObject.put("code", e.code);
+                    tmpObject.put("msg", e.message);
+                }
+                groups.add(tmpObject);
+            }
             jsonObject.put("code", "200");
-            jsonObject.put("msg", "Successfully unnoted memo!");
+            jsonObject.put("msg", "Found " + numFound + ".");
+            jsonObject.put("result", groups);
         } catch (AccountException e) {
-            jsonObject.put("code", e.code);
-            jsonObject.put("msg", e.message);
-        } catch (MemoException e) {
             jsonObject.put("code", e.code);
             jsonObject.put("msg", e.message);
         }

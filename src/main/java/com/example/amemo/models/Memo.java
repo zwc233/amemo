@@ -35,6 +35,11 @@ public class Memo {
     }
 
     @Override
+    public int hashCode() {
+        return id.hashCode();
+    }
+
+    @Override
     public boolean equals(Object o) {
         try {
             return id.equals(((Memo)o).id);

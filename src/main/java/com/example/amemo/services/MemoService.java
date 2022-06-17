@@ -48,22 +48,16 @@ public class MemoService {
             for (String memberName : memberSet) {
                 if (!memberName.equals(user.username)) {
                     User member = accountService.getFullUserInfo(memberName);
-                    for (FollowRecord followRecord : member.reminderConfig.particularInterests) {
-                        if (followRecord.groupId.equals(group.id) && followRecord.userId.equals(user.username)) {
-                            JSONObject jsonObject = new JSONObject();
-                            jsonObject.put("type", "Create Memo");
-                            jsonObject.put("memo", memo);
-                            SubscribeHandler.sendToUser(memberName, jsonObject.toJSONString());
-                        }
+                    FollowRecord followRecord = new FollowRecord(user.username, group.id);
+                    if (member.reminderConfig.particularInterests.contains(followRecord)) {
+                        member.reminderConfig.emphasizedMemos.add(memo);                
+                    } else if (member.reminderConfig.followedUsers.contains(followRecord)) {
+                        member.reminderConfig.notedMemos.add(memo);
                     }
-                    for (FollowRecord followRecord : member.reminderConfig.followedUsers) {
-                        if (followRecord.groupId.equals(group.id) && followRecord.userId.equals(user.username)) {
-                            JSONObject jsonObject = new JSONObject();
-                            jsonObject.put("type", "Create Memo");
-                            jsonObject.put("memo", memo);
-                            SubscribeHandler.sendToUser(memberName, jsonObject.toJSONString());
-                        }
-                    }
+                    JSONObject jsonObject = new JSONObject();
+                    jsonObject.put("type", "New Memo");
+                    jsonObject.put("memo", memo);
+                    SubscribeHandler.sendToUser(memberName, jsonObject.toJSONString());
                 }
             }
         } catch (Exception e) {
@@ -115,8 +109,9 @@ public class MemoService {
         }
     }
 
-    public void noteMemo(User user, Memo memo, Boolean emphasis) throws MemoException {
-        System.out.println("noteMemo: " + user.username + ", " + memo.title + (emphasis ? " (emphasis)" : ""));
+    public void noteMemo(User user, Memo memo, int level) throws MemoException {
+        System.out.println("noteMemo: " + user.username + ", " + memo.title +
+                (level > 0 ? " (emphasis)" : level == 0 ? " (normal)" : " (none)"));
         try {
             Boolean found = false;
             for (Group group : user.joinedGroups) {
@@ -128,24 +123,19 @@ public class MemoService {
             if (!found) {
                 throw new MemoException("400", "Users can only note memos created in groups they've joined.");
             }
-            if (emphasis) {
+            if (level > 0) {
                 user.reminderConfig.emphasizedMemos.add(memo);
-            } else {
+                user.reminderConfig.notedMemos.remove(memo);
+            } else if (level == 0) {
                 user.reminderConfig.notedMemos.add(memo);
+                user.reminderConfig.emphasizedMemos.remove(memo);
+            } else {
+                user.reminderConfig.emphasizedMemos.remove(memo);
+                user.reminderConfig.notedMemos.remove(memo);
             }
             mongoTemplate.save(user);
         } catch (MemoException e) {
             throw e;
-        } catch (Exception e) {
-            throw new MemoException("401", "Failed to create memo due to: " + e.getMessage());
-        }
-    }
-
-    public void unnoteMemo(User user, Memo memo) throws MemoException {
-        System.out.println("unnoteMemo: " + user.username + ", " + memo.title);
-        try {
-            user.reminderConfig.emphasizedMemos.remove(memo);
-            user.reminderConfig.notedMemos.remove(memo);
         } catch (Exception e) {
             throw new MemoException("401", "Failed to create memo due to: " + e.getMessage());
         }

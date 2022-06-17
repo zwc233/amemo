@@ -97,6 +97,15 @@ public class AccountService {
         }
     }
 
+    public void changeGlobalLevel(User user, int newLevel) throws AccountException {
+        System.out.println("changeGlobalLevel: " + user.username + ", " + newLevel);
+        if (user.reminderConfig.globalLevel == newLevel) {
+            throw new AccountException("401", "Level not changed.");
+        }
+        user.reminderConfig.globalLevel = newLevel;
+        mongoTemplate.save(user);
+    }
+
     public User getPersonalInfo(String username) throws AccountException {
         System.out.println("getPersonalInfo: " + username);
         Query query = new Query(Criteria.where("username").is(username));
@@ -112,6 +121,7 @@ public class AccountService {
     }
 
     public User findUserByUsername(String username) throws AccountException {
+        System.out.println("findUserByUsername: " + username);
         Query query = new Query(Criteria.where("username").is(username));
         query.fields().exclude("id").exclude("password");
         User user = mongoTemplate.findOne(query, User.class);
@@ -123,6 +133,7 @@ public class AccountService {
     }
 
     public User getFullUserInfo(String username) throws AccountException {
+        System.out.println("getFullUserInfo: " + username);
         Query query = new Query(Criteria.where("username").is(username));
         User user = mongoTemplate.findOne(query, User.class);
         if (user == null) {

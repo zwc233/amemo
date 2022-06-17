@@ -1,5 +1,7 @@
 package com.example.amemo.controllers;
 
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -80,10 +82,10 @@ public class GroupController {
             User follower = accountService.getFullUserInfo(username);
             User followee = accountService.getFullUserInfo(followeeName);
             Group group = groupService.findGroupById(groupId);
-            groupService.follow(follower, followee, group, level > 0);
+            groupService.follow(follower, followee, group, level);
             jsonObject.put("code", "200");
             jsonObject.put("msg", "Successfully followed user!");
-            jsonObject.put("followee", followee);
+            jsonObject.put("info", followee);
         } catch (AccountException e) {
             jsonObject.put("code", e.code);
             jsonObject.put("msg", e.message);
@@ -92,6 +94,42 @@ public class GroupController {
             jsonObject.put("msg", e.message);
         }
 
+        return jsonObject;
+    }
+
+    @CrossOrigin
+    @RequestMapping("/groupInfo")
+    public JSONObject getGroupInfo(String token, String gIds) {
+        JSONObject jsonObject = new JSONObject();
+        String[] groupIds = gIds.split(":");
+
+        try {
+            accountService.validate(token);
+            ArrayList<JSONObject> groups = new ArrayList<>();
+            int numFound = 0;
+            for (String groupId : groupIds) {
+                JSONObject tmpObject = new JSONObject();
+                tmpObject.put("id", groupId);
+                try {
+                    Group group = groupService.findGroupById(groupId);
+                    tmpObject.put("code", "200");
+                    tmpObject.put("msg", "Found.");
+                    tmpObject.put("info", group);
+                    numFound++;
+                } catch (GroupException e) {
+                    tmpObject.put("code", e.code);
+                    tmpObject.put("msg", e.message);
+                }
+                groups.add(tmpObject);
+            }
+            jsonObject.put("code", "200");
+            jsonObject.put("msg", "Found " + numFound + ".");
+            jsonObject.put("result", groups);
+        } catch (AccountException e) {
+            jsonObject.put("code", e.code);
+            jsonObject.put("msg", e.message);
+        }
+        
         return jsonObject;
     }
 }

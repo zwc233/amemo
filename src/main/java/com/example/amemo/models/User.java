@@ -45,6 +45,11 @@ public class User {
     }
 
     @Override
+    public int hashCode() {
+        return username.hashCode();
+    }
+
+    @Override
     public boolean equals(Object o) {
         try {
             return username.equals(((User)o).username);
@@ -66,9 +71,6 @@ public class User {
         @Field("followed_users")
         public Set<FollowRecord> followedUsers;
 
-        @Field("followers")
-        public Set<String> followers;
-
         @Field("specially_noted_memos")
         @DBRef(lazy = true)
         public Set<Memo> emphasizedMemos;
@@ -79,9 +81,8 @@ public class User {
 
         public ReminderConfig() {
             this.globalLevel          =  MUTE;
-            this.particularInterests   =  new HashSet<>();
+            this.particularInterests  =  new HashSet<>();
             this.followedUsers        =  new HashSet<>();
-            this.followers            =  new HashSet<>();
             this.emphasizedMemos      =  new HashSet<>();
             this.notedMemos           =  new HashSet<>();
         }
@@ -97,6 +98,20 @@ public class User {
             public FollowRecord(String userId, String groupId) {
                 this.userId = userId;
                 this.groupId = groupId;
+            }
+
+            @Override
+            public int hashCode() {
+                return userId.hashCode() + groupId.hashCode();
+            }
+
+            @Override
+            public boolean equals(Object o) {
+                try {
+                    return userId.equals(((FollowRecord)o).userId) && groupId.equals(((FollowRecord)o).groupId);
+                } catch (Exception e) {
+                    return false;
+                }
             }
         }
     }

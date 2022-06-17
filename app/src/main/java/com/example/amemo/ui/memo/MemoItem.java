@@ -10,11 +10,11 @@ public class MemoItem {
         this.memo = memo;
         CacheHandler.User user = CacheHandler.getUser();
         if (user.emphasizedMemos.contains(memo.id)) {
-            remindLevel = 2;
-        } else if (user.notedMemos.contains(memo.id)) {
             remindLevel = 1;
-        } else {
+        } else if (user.notedMemos.contains(memo.id)) {
             remindLevel = 0;
+        } else {
+            remindLevel = -1;
         }
     }
 }

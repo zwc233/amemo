@@ -1,5 +1,7 @@
 package com.example.amemo;
 
+import android.content.Context;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -16,6 +18,7 @@ public class CacheHandler {
     public static User user;
     public static HashMap<String, Memo> memos = new HashMap<>();
     public static HashMap<String, Group> groups = new HashMap<>();
+    public static Context context;
 
     public static String getToken() {
         return token;
@@ -39,13 +42,24 @@ public class CacheHandler {
 
     public static void saveMemo(JSONObject memoObj) throws JSONException {
         Memo memo = new Memo(memoObj);
+        User.FollowRecord followRecord = new User.FollowRecord(memo.creator, memo.group);
+        if (user.followedUsers.contains(followRecord)) {
+            user.notedMemos.add(memo.id);
+        } else if (user.particularInterests.contains(followRecord)) {
+            user.emphasizedMemos.add(memo.id);
+        }
+        if (groups.get(memo.group) != null) {
+            groups.get(memo.group).memos.add(memo.id);
+        }
         memos.put(memo.id, memo);
+        if (memo.when > System.currentTimeMillis()) {
+            Utils.startNoteAfter(memo.when - System.currentTimeMillis(), memo.id, context);
+        }
     }
 
     public static void addMemos(JSONArray jsonArray) throws JSONException {
         for (int i = 0; i < jsonArray.length(); i++) {
-            Memo memo = new Memo(jsonArray.getJSONObject(i));
-            memos.put(memo.id, memo);
+            saveMemo(jsonArray.getJSONObject(i));
         }
     }
 
@@ -91,13 +105,9 @@ public class CacheHandler {
         public String content;
         public long when;
 
-        public Memo(JSONObject jsonObject) throws JSONException {
-            this.id = jsonObject.getString("id");
-            this.creator = jsonObject.getString("creator");
-            this.group = jsonObject.getString("group");
-            this.title = jsonObject.getString("title");
-            this.content = jsonObject.getString("content");
-            this.when = jsonObject.getLong("when");
+        @Override
+        public int hashCode() {
+            return id.hashCode();
         }
 
         @Override
@@ -107,6 +117,15 @@ public class CacheHandler {
             } catch (Exception e) {
                 return false;
             }
+        }
+
+        public Memo(JSONObject jsonObject) throws JSONException {
+            this.id = jsonObject.getString("id");
+            this.creator = jsonObject.getString("creator");
+            this.group = jsonObject.getString("group");
+            this.title = jsonObject.getString("title");
+            this.content = jsonObject.getString("content");
+            this.when = jsonObject.getLong("when");
         }
     }
 
@@ -118,6 +137,20 @@ public class CacheHandler {
         public Set<String> admins = new HashSet<>();
         public Set<String> members = new HashSet<>();
         public Set<String> memos = new HashSet<>();
+
+        @Override
+        public int hashCode() {
+            return id.hashCode();
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            try {
+                return id.equals(((Group)o).id);
+            } catch (Exception e) {
+                return false;
+            }
+        }
 
         public Group(JSONObject groupObj) throws JSONException {
             this.id = groupObj.getString("id");
@@ -140,15 +173,6 @@ public class CacheHandler {
                 this.memos.add(memos.getString(i));
             }
         }
-
-        @Override
-        public boolean equals(Object o) {
-            try {
-                return id.equals(((Group)o).id);
-            } catch (Exception e) {
-                return false;
-            }
-        }
     }
 
     public static class User {
@@ -164,9 +188,38 @@ public class CacheHandler {
         public static class FollowRecord {
             public String username;
             public String groupId;
+
+            @Override
+            public int hashCode() {
+                return username.hashCode() + groupId.hashCode();
+            }
+
+            @Override
+            public boolean equals(Object o) {
+                try {
+                    return username.equals(((FollowRecord)o).username) &&
+                            groupId.equals(((FollowRecord)o).groupId);
+                } catch (Exception e) {
+                    return false;
+                }
+            }
             public FollowRecord(String username, String groupId) {
                 this.username = username;
                 this.groupId = groupId;
+            }
+        }
+
+        @Override
+        public int hashCode() {
+            return username.hashCode();
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            try {
+                return username.equals(((User)o).username);
+            } catch (Exception e) {
+                return false;
             }
         }
 
@@ -178,12 +231,18 @@ public class CacheHandler {
 
             JSONArray createdMemos = userObj.getJSONArray("createdMemos");
             for (int i = 0; i < createdMemos.length(); i++) {
-                this.createdMemos.add(createdMemos.getJSONObject(i).getString("id"));
+                Memo memo = new Memo(createdMemos.getJSONObject(i));
+                this.createdMemos.add(memo.id);
+                memos.put(memo.id, memo);
+                if (memo.when > System.currentTimeMillis()) {
+                    Utils.startNoteAfter(memo.when - System.currentTimeMillis(), memo.id, context);
+                }
             }
 
             JSONArray joinedGroups = userObj.getJSONArray("joinedGroups");
             for (int i = 0; i < joinedGroups.length(); i++) {
                 this.joinedGroups.add(joinedGroups.getJSONObject(i).getString("id"));
+                saveGroup(joinedGroups.getJSONObject(i));
             }
 
             JSONArray particularInterests = cfg.getJSONArray("particularInterests");
@@ -206,16 +265,22 @@ public class CacheHandler {
 
             JSONArray emphasizedMemos = cfg.getJSONArray("emphasizedMemos");
             for (int i = 0; i < emphasizedMemos.length(); i++) {
-                JSONObject emphasized = emphasizedMemos.getJSONObject(i);
-                this.emphasizedMemos.add(emphasized.getString("id"));
-                CacheHandler.saveMemo(emphasized);
+                Memo memo = new Memo(emphasizedMemos.getJSONObject(i));
+                this.emphasizedMemos.add(memo.id);
+                memos.put(memo.id, memo);
+                if (memo.when > System.currentTimeMillis()) {
+                    Utils.startNoteAfter(memo.when - System.currentTimeMillis(), memo.id, context);
+                }
             }
 
             JSONArray notedMemos = cfg.getJSONArray("notedMemos");
             for (int i = 0; i < notedMemos.length(); i++) {
-                JSONObject noted = notedMemos.getJSONObject(i);
-                this.notedMemos.add(noted.getString("id"));
-                CacheHandler.saveMemo(noted);
+                Memo memo = new Memo(notedMemos.getJSONObject(i));
+                this.notedMemos.add(memo.id);
+                memos.put(memo.id, memo);
+                if (memo.when > System.currentTimeMillis()) {
+                    Utils.startNoteAfter(memo.when - System.currentTimeMillis(), memo.id, context);
+                }
             }
         }
     }

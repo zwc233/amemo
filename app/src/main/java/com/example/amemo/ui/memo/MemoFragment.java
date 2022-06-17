@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.Cache;
 import com.example.amemo.CacheHandler;
 import com.example.amemo.databinding.FragmentMemoBinding;
 
@@ -35,11 +36,27 @@ public class MemoFragment extends Fragment {
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
+
         List<MemoItem> list = new ArrayList<>();
-        for (CacheHandler.Memo memo : CacheHandler.memos.values()) {
+        for (String memoId : CacheHandler.user.createdMemos) {
+            CacheHandler.Memo memo = CacheHandler.getMemo(memoId);
             list.add(new MemoItem(memo));
         }
+        for (String memoId : CacheHandler.user.notedMemos) {
+            if (!CacheHandler.user.createdMemos.contains(memoId)) {
+                CacheHandler.Memo memo = CacheHandler.getMemo(memoId);
+                list.add(new MemoItem(memo));
+            }
+        }
+        for (String memoId : CacheHandler.user.emphasizedMemos) {
+            if (!CacheHandler.user.createdMemos.contains(memoId)) {
+                CacheHandler.Memo memo = CacheHandler.getMemo(memoId);
+                list.add(new MemoItem(memo));
+            }
+        }
+
         MemoAdapter fruitAdapter = new MemoAdapter(list);
+
         recyclerView.setAdapter(fruitAdapter);
         return root;
     }
@@ -48,5 +65,34 @@ public class MemoFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+
+    public void updateMemos() {
+        final RecyclerView recyclerView = binding.viewMemo;
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(layoutManager);
+
+        List<MemoItem> list = new ArrayList<>();
+        for (String memoId : CacheHandler.user.createdMemos) {
+            CacheHandler.Memo memo = CacheHandler.getMemo(memoId);
+            list.add(new MemoItem(memo));
+        }
+        for (String memoId : CacheHandler.user.notedMemos) {
+            if (!CacheHandler.user.createdMemos.contains(memoId)) {
+                CacheHandler.Memo memo = CacheHandler.getMemo(memoId);
+                list.add(new MemoItem(memo));
+            }
+        }
+        for (String memoId : CacheHandler.user.emphasizedMemos) {
+            if (!CacheHandler.user.createdMemos.contains(memoId)) {
+                CacheHandler.Memo memo = CacheHandler.getMemo(memoId);
+                list.add(new MemoItem(memo));
+            }
+        }
+
+        MemoAdapter fruitAdapter = new MemoAdapter(list);
+
+        recyclerView.setAdapter(fruitAdapter);
     }
 }

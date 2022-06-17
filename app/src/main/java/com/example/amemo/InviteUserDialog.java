@@ -50,10 +50,10 @@ public class InviteUserDialog extends Dialog {
         RequestQueue requestQueue = Volley.newRequestQueue(getContext());
 
         EditText inviteeNameText = findViewById(R.id.editTextInputUserID);
-        String inviteeName = inviteeNameText.getText().toString();
 
         Button btn = findViewById(R.id.btnInviteUser);
         btn.setOnClickListener(v ->{
+            String inviteeName = inviteeNameText.getText().toString();
             if (inviteeName.equals(CacheHandler.getUser().username)) {
                 Toast.makeText(getContext(),
                         R.string.cannot_invite_yourself,
@@ -80,6 +80,14 @@ public class InviteUserDialog extends Dialog {
                                     } else if (responseObj.getString("code").equals("402")) {
                                         Toast.makeText(getContext(),
                                                 R.string.cannot_invite_yourself,
+                                                Toast.LENGTH_SHORT).show();
+                                    } else if (responseObj.getString("code").equals("403")) {
+                                        Toast.makeText(getContext(),
+                                                R.string.user_already_in_group,
+                                                Toast.LENGTH_SHORT).show();
+                                    } else if (responseObj.getString("msg").startsWith("User not found.")) {
+                                        Toast.makeText(getContext(),
+                                                R.string.user_does_not_exist,
                                                 Toast.LENGTH_SHORT).show();
                                     } else {
                                         Toast.makeText(getContext(),

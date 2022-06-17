@@ -27,19 +27,27 @@
     <string name="register_failure">注册失败，用户名重复</string>
     <string name="create_group_failure">创建群组失败</string>
     <string name="create_group_success">创建群组成功！</string>
+    <string name="group_does_not_exist">群组不存在</string>
     <string name="create_memo_failure">创建备忘录失败</string>
     <string name="create_memo_success">创建备忘录成功！</string>
+    <string name="new_memo_created">有用户新建了备忘录！</string>
     <string name="invite_user_success">邀请用户成功！</string>
     <string name="only_owner_can_invite">只有群主才能邀请用户</string>
     <string name="cannot_invite_yourself">不能邀请自己！</string>
+    <string name="user_already_in_group">用户已经在群组中！</string>
     <string name="invite_user_failure">邀请用户失败</string>
+    <string name="invited_to_new_group">您被邀请至新的群组</string>
+    <string name="new_member_to_group">有新用户加入了群组</string>
     <string name="select_group_hint">请选择要发布的群组</string>
     <string name="special_interest_success">成功设为特别关心！</string>
     <string name="follow_success">成功关注用户！</string>
     <string name="unfollow_success">成功取消关注！</string>
     <string name="emphasize_success">成功设为特别关心！</string>
+    <string name="follow_failed">关注失败</string>
     <string name="note_success">成功设为提醒！</string>
     <string name="unnote_success">成功取消提醒！</string>
+    <string name="user_does_not_exist">用户不存在</string>
+    <string name="subscribe_failed">连接至订阅频道失败</string>
 
     <!-- Preference Titles -->
     <string name="messages_header">Messages</string>
@@ -87,4 +95,5 @@
     <string name="inviteNewUser">邀请</string>
     <string name="strongRemind">强关心</string>
     <string name="Remind">提醒</string>
+    <string name="textFunctionIntro">功能介绍</string>
 </resources>

@@ -1,7 +1,7 @@
 package com.example.amemo;
 
 public class UrlUtils {
-    public static String serverIp    = "192.168.43.191";
+    public static String serverIp    = "121.40.84.48";
     public static String httpBaseUrl = "http://" + serverIp + ":8000";
     public static String wsBaseUrl   = "ws://" + serverIp + ":8000/subscribe";
 
@@ -16,7 +16,6 @@ public class UrlUtils {
     public static String createMemoUrl    =  "/createMemo";
     public static String deleteMemoUrl    =  "/deleteMemo";
     public static String noteMemoUrl      =  "/noteMemo";
-    public static String unnoteMemoUrl    =  "/unnoteMemo";
     public static String memoInfoUrl      =  "/memoInfo";
 
     public static String makeHttpUrl(String url) {

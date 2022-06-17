@@ -1,6 +1,10 @@
 package com.example.amemo;
 
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
+import android.media.AudioManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
@@ -32,6 +36,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Utils.setStatusBar(this);
 
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.setInterruptionFilter(NotificationManager.INTERRUPTION_FILTER_ALL);
+        Utils.getVolumePermission(getApplicationContext());
+
         RequestQueue requestQueue = Volley.newRequestQueue(this);
 
         EditText usernameInput = this.findViewById(R.id.inputUsr);
@@ -42,7 +50,11 @@ public class MainActivity extends AppCompatActivity {
 
         Button btnRegister = findViewById(R.id.registerUser);
 
+        Button btnFuncIntro = findViewById(R.id.functionIntro);
+
         Button btnPsw = findViewById(R.id.findPwd);
+
+        CacheHandler.context = getApplicationContext();
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -53,9 +65,7 @@ public class MainActivity extends AppCompatActivity {
             btnLogin.setEnabled(false);
             btnRegister.setEnabled(false);
 
-            Toast.makeText(this,
-                    R.string.use_saved_token,
-                    Toast.LENGTH_SHORT).show();
+            System.out.println("Using saved token: " + CacheHandler.getToken());
 
             requestQueue.add(
                     new StringRequest(
@@ -71,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
                                         Intent intent = new Intent(MainActivity.this, AfterLoginActivity.class);
                                         startActivity(intent);
                                         overridePendingTransition(R.anim.in_from_left, R.anim.out_to_right);
+                                        startService(new Intent(this, SubscribeService.class));
                                     } else {
                                         Toast.makeText(this,
                                                 R.string.invalid_token,
@@ -121,7 +132,10 @@ public class MainActivity extends AppCompatActivity {
                                         CacheHandler.setToken(token);
 
                                         JSONObject userObj = responseObj.getJSONObject("info");
+                                        System.out.println(response);
                                         CacheHandler.setUser(userObj);
+
+                                        startService(new Intent(this, SubscribeService.class));
 
                                         Intent intent = new Intent();
                                         intent.setClass(
@@ -160,6 +174,12 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
             );
+        });
+
+        btnFuncIntro.setOnClickListener(v -> {
+            Intent intent = new Intent();
+            intent.setClass(MainActivity.this, FunctionIntro.class);
+            startActivity(intent);
         });
 
         btnRegister.setOnClickListener(v -> {

@@ -89,12 +89,12 @@
              />
 
         <Button
-            android:id="@+id/loginWithPhone"
+            android:id="@+id/functionIntro"
             android:layout_width="125dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@drawable/add_button_selector"
-            android:text="@string/login_phone"
+            android:text="@string/textFunctionIntro"
             android:textColor="#090808"
             />
 

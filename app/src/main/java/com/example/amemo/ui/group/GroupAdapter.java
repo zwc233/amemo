@@ -70,6 +70,7 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder>{
             Intent intent = new Intent();
             intent.setClass(v.getContext(), InGroupActivity.class);
             intent.putExtra("groupId", groupItem.group.id);
+            intent.putExtra("description", groupItem.group.description);
             v.getContext().startActivity(intent);
             new Handler().postDelayed(new Runnable(){
                 public void run() {
@@ -77,7 +78,7 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder>{
                     holder.itemView.setBackgroundResource(R.drawable.group_shape);
                     holder.itemView.setPadding(43,43,43,43);
                 }
-            }, 200);   //
+            }, 200);
 
 
         });

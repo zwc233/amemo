@@ -35,9 +35,16 @@ import java.util.concurrent.locks.ReentrantLock;
 class MemberItem {
     public String name;
     public int remindLevel;
-    public MemberItem(String name) {
+    public MemberItem(String name, String groupId) {
         this.name = name;
-        remindLevel = 0;
+        CacheHandler.User.FollowRecord followRecord = new CacheHandler.User.FollowRecord(name, groupId);
+        if (CacheHandler.user.particularInterests.contains(followRecord)) {
+            remindLevel = 1;
+        } else if (CacheHandler.user.followedUsers.contains(followRecord)) {
+            remindLevel = 0;
+        } else {
+            remindLevel = -1;
+        }
     }
 
     public String getName() {
@@ -73,6 +80,8 @@ public class SeeAllMemberAdapter extends RecyclerView.Adapter<SeeAllMemberAdapte
         return new ViewHolder(view);
     }
 
+    Lock gotResponse = new ReentrantLock();
+
     @Override
     public void onBindViewHolder(@NonNull SeeAllMemberAdapter.ViewHolder holder, int position) {
         MemberItem memberItem = memberItemList.get(position);
@@ -80,13 +89,14 @@ public class SeeAllMemberAdapter extends RecyclerView.Adapter<SeeAllMemberAdapte
 
         RequestQueue requestQueue = Volley.newRequestQueue(parentIn.getContext());
 
-        Lock gotResponse = new ReentrantLock();
-
         holder.itemView.setOnClickListener(v -> {
             System.out.println(position);
             notifyDataSetChanged();
             gotResponse.lock();
-            memberItem.remindLevel += 1;
+            memberItem.remindLevel++;
+            if (memberItem.remindLevel > 1) {
+                memberItem.remindLevel = -1;
+            }
             requestQueue.add(
                     new StringRequest(
                             Request.Method.POST,
@@ -95,73 +105,77 @@ public class SeeAllMemberAdapter extends RecyclerView.Adapter<SeeAllMemberAdapte
                                 try {
                                     JSONObject responseObj = new JSONObject(response);
                                     if (responseObj.getString("code").equals("200")) {
-                                        switch (memberItem.remindLevel % 3) {
-                                            case 0 : {
-                                                Toast.makeText(parentIn.getContext(),
-                                                        R.string.unfollow_success,
-                                                        Toast.LENGTH_SHORT).show();
-                                                CacheHandler.User.FollowRecord followRecord =
-                                                        new CacheHandler.User.FollowRecord(
-                                                                memberItem.name,
-                                                                groupId
-                                                        );
-                                                CacheHandler.User user = CacheHandler.getUser();
-                                                user.particularInterests.remove(followRecord);
-                                                user.followedUsers.remove(followRecord);
-                                                JSONArray createdMemos =
-                                                        responseObj.getJSONObject("info").getJSONArray("createdMemos");
-                                                for (int i = 0; i < createdMemos.length(); i++) {
-                                                    JSONObject memo = createdMemos.getJSONObject(i);
-                                                    user.emphasizedMemos.remove(memo.getString("id"));
-                                                    user.notedMemos.remove(memo.getString("id"));
-                                                }
-
-                                                break;
+                                        if (memberItem.remindLevel < 0) {
+                                            Toast.makeText(parentIn.getContext(),
+                                                    R.string.unfollow_success,
+                                                    Toast.LENGTH_SHORT).show();
+                                            CacheHandler.User.FollowRecord followRecord =
+                                                    new CacheHandler.User.FollowRecord(
+                                                            memberItem.name,
+                                                            groupId
+                                                    );
+                                            CacheHandler.User user = CacheHandler.getUser();
+                                            user.particularInterests.remove(followRecord);
+                                            user.followedUsers.remove(followRecord);
+                                            JSONArray createdMemos =
+                                                    responseObj.getJSONObject("info").getJSONArray("createdMemos");
+                                            for (int i = 0; i < createdMemos.length(); i++) {
+                                                JSONObject memo = createdMemos.getJSONObject(i);
+                                                user.emphasizedMemos.remove(memo.getString("id"));
+                                                user.notedMemos.remove(memo.getString("id"));
                                             }
-                                            case 1: {
-                                                Toast.makeText(parentIn.getContext(),
-                                                        R.string.follow_success,
-                                                        Toast.LENGTH_SHORT).show();
-                                                CacheHandler.User.FollowRecord followRecord =
-                                                        new CacheHandler.User.FollowRecord(
-                                                                memberItem.name,
-                                                                groupId
-                                                        );
-                                                CacheHandler.User user = CacheHandler.getUser();
-                                                user.particularInterests.remove(followRecord);
-                                                user.followedUsers.add(followRecord);
-                                                JSONArray createdMemos =
-                                                        responseObj.getJSONObject("info").getJSONArray("createdMemos");
-                                                for (int i = 0; i < createdMemos.length(); i++) {
-                                                    JSONObject memo = createdMemos.getJSONObject(i);
-                                                    user.emphasizedMemos.remove(memo.getString("id"));
+                                        } else if (memberItem.remindLevel == 0) {
+                                            Toast.makeText(parentIn.getContext(),
+                                                    R.string.follow_success,
+                                                    Toast.LENGTH_SHORT).show();
+                                            CacheHandler.User.FollowRecord followRecord =
+                                                    new CacheHandler.User.FollowRecord(
+                                                            memberItem.name,
+                                                            groupId
+                                                    );
+                                            CacheHandler.User user = CacheHandler.getUser();
+                                            user.particularInterests.remove(followRecord);
+                                            user.followedUsers.add(followRecord);
+                                            JSONArray createdMemos =
+                                                    responseObj.getJSONObject("info").getJSONArray("createdMemos");
+                                            for (int i = 0; i < createdMemos.length(); i++) {
+                                                JSONObject memo = createdMemos.getJSONObject(i);
+                                                user.emphasizedMemos.remove(memo.getString("id"));
+                                                if (memo.getString("group").equals(groupId)) {
                                                     user.notedMemos.add(memo.getString("id"));
+                                                    CacheHandler.saveMemo(memo);
                                                 }
-
-                                                break;
                                             }
-                                            case 2: {
-                                                Toast.makeText(parentIn.getContext(),
-                                                        R.string.special_interest_success,
-                                                        Toast.LENGTH_SHORT).show();
-                                                CacheHandler.User.FollowRecord followRecord =
-                                                        new CacheHandler.User.FollowRecord(
-                                                                memberItem.name,
-                                                                groupId
-                                                        );
-                                                CacheHandler.User user = CacheHandler.getUser();
-                                                user.particularInterests.add(followRecord);
-                                                user.followedUsers.remove(followRecord);
-                                                JSONArray createdMemos =
-                                                        responseObj.getJSONObject("info").getJSONArray("createdMemos");
-                                                for (int i = 0; i < createdMemos.length(); i++) {
-                                                    JSONObject memo = createdMemos.getJSONObject(i);
+                                        } else {
+                                            Toast.makeText(parentIn.getContext(),
+                                                    R.string.special_interest_success,
+                                                    Toast.LENGTH_SHORT).show();
+                                            CacheHandler.User.FollowRecord followRecord =
+                                                    new CacheHandler.User.FollowRecord(
+                                                            memberItem.name,
+                                                            groupId
+                                                    );
+                                            CacheHandler.User user = CacheHandler.getUser();
+                                            user.particularInterests.add(followRecord);
+                                            user.followedUsers.remove(followRecord);
+                                            JSONArray createdMemos =
+                                                    responseObj.getJSONObject("info").getJSONArray("createdMemos");
+                                            for (int i = 0; i < createdMemos.length(); i++) {
+                                                JSONObject memo = createdMemos.getJSONObject(i);
+                                                if (memo.getString("group").equals(groupId)) {
                                                     user.emphasizedMemos.add(memo.getString("id"));
-                                                    user.notedMemos.remove(memo.getString("id"));
+                                                    CacheHandler.saveMemo(memo);
                                                 }
-
-                                                break;
+                                                user.notedMemos.remove(memo.getString("id"));
                                             }
+                                        }
+                                    } else {
+                                        Toast.makeText(parentIn.getContext(),
+                                                R.string.follow_failed,
+                                                Toast.LENGTH_SHORT).show();
+                                        memberItem.remindLevel--;
+                                        if (memberItem.remindLevel < -1) {
+                                            memberItem.remindLevel = 1;
                                         }
                                     }
                                 } catch (JSONException e) {
@@ -169,6 +183,10 @@ public class SeeAllMemberAdapter extends RecyclerView.Adapter<SeeAllMemberAdapte
                                     Toast.makeText(parentIn.getContext(),
                                             R.string.request_failed,
                                             Toast.LENGTH_SHORT).show();
+                                    memberItem.remindLevel--;
+                                    if (memberItem.remindLevel < -1) {
+                                        memberItem.remindLevel = 1;
+                                    }
                                 }
                                 gotResponse.unlock();
                             },
@@ -177,12 +195,17 @@ public class SeeAllMemberAdapter extends RecyclerView.Adapter<SeeAllMemberAdapte
                                 Toast.makeText(parentIn.getContext(),
                                         R.string.no_response,
                                         Toast.LENGTH_SHORT).show();
+                                memberItem.remindLevel--;
+                                if (memberItem.remindLevel < -1) {
+                                    memberItem.remindLevel = 1;
+                                }
                                 gotResponse.unlock();
                             }
                     ) {
                         @Override
                         protected Map<String, String> getParams() {
                             Map<String, String> params = new HashMap<>();
+                            params.put("token", CacheHandler.getToken());
                             params.put("followeeName", memberItem.name);
                             params.put("groupId", groupId);
                             params.put("level", "" + memberItem.remindLevel);
@@ -192,9 +215,9 @@ public class SeeAllMemberAdapter extends RecyclerView.Adapter<SeeAllMemberAdapte
             );
 
             gotResponse.lock();
-            if (memberItem.remindLevel%3 == 0){
+            if (memberItem.remindLevel < 0){
                 holder.remindLevelImage.setImageResource(R.drawable.ic_baseline_notifications_off_24);
-            } else if (memberItem.remindLevel%3 == 1){
+            } else if (memberItem.remindLevel == 0){
                 holder.remindLevelImage.setImageResource(R.drawable.ic_baseline_notifications_24_gray);
             } else {
                 holder.remindLevelImage.setImageResource(R.drawable.ic_baseline_notification_important_24);

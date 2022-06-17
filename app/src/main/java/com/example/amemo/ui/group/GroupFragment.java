@@ -1,5 +1,8 @@
 package com.example.amemo.ui.group;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,6 +40,8 @@ public class GroupFragment extends Fragment {
 
     private FragmentGroupBinding binding;
 
+    Lock gotResponse = new ReentrantLock();
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         GroupViewModel groupViewModel =
@@ -47,15 +52,12 @@ public class GroupFragment extends Fragment {
 
         RequestQueue requestQueue = Volley.newRequestQueue(getContext());
 
-        Lock gotResponse = new ReentrantLock();
-
-        final RecyclerView recyclerView = binding.viewGroup;
+        RecyclerView recyclerView = binding.viewGroup;
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
+
         List<GroupItem> list = new ArrayList<>();
-        StringBuilder notFound = new StringBuilder();
-        CacheHandler.User user = CacheHandler.getUser();
         for (CacheHandler.Group group : CacheHandler.groups.values()) {
             list.add(new GroupItem(group));
         }
@@ -133,5 +135,21 @@ public class GroupFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+
+    public void updateGroups() {
+        RecyclerView recyclerView = binding.viewGroup;
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(layoutManager);
+
+        List<GroupItem> list = new ArrayList<>();
+        for (CacheHandler.Group group : CacheHandler.groups.values()) {
+            list.add(new GroupItem(group));
+        }
+
+        GroupAdapter fruitAdapter = new GroupAdapter(list);
+
+        recyclerView.setAdapter(fruitAdapter);
     }
 }

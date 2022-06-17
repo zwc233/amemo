@@ -30,9 +30,9 @@ public class allMemberActivity extends AppCompatActivity {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         List<MemberItem> list = new ArrayList<>();
-        list.add(new MemberItem("成员A"));
-        list.add(new MemberItem("成员B"));
-        list.add(new MemberItem("成员C"));
+        list.add(new MemberItem("成员A", "第 1 组"));
+        list.add(new MemberItem("成员B", "第 1 组"));
+        list.add(new MemberItem("成员C", "第 1 组"));
         SeeAllMemberAdapter fruitAdapter = new SeeAllMemberAdapter(list, null);
         recyclerView.setAdapter(fruitAdapter);
     }

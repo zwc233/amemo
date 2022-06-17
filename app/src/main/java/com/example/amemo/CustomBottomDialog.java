@@ -19,11 +19,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.amemo.ui.group.InGroupActivity;
 import com.loper7.date_time_picker.dialog.CardDatePickerDialog;
 
 import org.json.JSONException;
@@ -40,11 +42,13 @@ import java.util.concurrent.atomic.AtomicLong;
 public class CustomBottomDialog extends Dialog {
 
     String groupId;
+    InGroupActivity parent;
     long memoTimestamp = 0;
 
-    public CustomBottomDialog(@NonNull Context context, String groupId) {
+    public CustomBottomDialog(@NonNull Context context, String groupId, InGroupActivity parent) {
         super(context, R.style.bottom_dialog_bg_style);
         this.groupId = groupId;
+        this.parent = parent;
     }
 
     @Override
@@ -93,16 +97,20 @@ public class CustomBottomDialog extends Dialog {
                                         Toast.makeText(getContext(),
                                                 R.string.create_memo_success,
                                                 Toast.LENGTH_SHORT).show();
+
                                         String memoId = responseObj.getString("id");
                                         JSONObject memoObj = new JSONObject();
                                         memoObj.put("id", memoId);
                                         memoObj.put("creator", CacheHandler.getUser().username);
                                         memoObj.put("group", groupId);
-                                        memoObj.put("title", memoTitle);
-                                        memoObj.put("content", memoContent);
+                                        memoObj.put("title", memoTitle.getText().toString());
+                                        memoObj.put("content", memoContent.getText().toString());
                                         memoObj.put("when", memoTimestamp);
                                         CacheHandler.saveMemo(memoObj);
                                         CacheHandler.user.createdMemos.add(memoId);
+                                        CacheHandler.getGroup(groupId).memos.add(memoId);
+
+                                        parent.updateRecyclerView();
                                     } else if (responseObj.getString("code").equals("400")) {
                                         Toast.makeText(getContext(),
                                                 R.string.invalid_token,
@@ -136,6 +144,7 @@ public class CustomBottomDialog extends Dialog {
                             params.put("title", memoTitle.getText().toString());
                             params.put("content", memoContent.getText().toString());
                             params.put("when", "" + memoTimestamp);
+                            params.put("cycle", "" + -1);
                             return params;
                         }
                     }

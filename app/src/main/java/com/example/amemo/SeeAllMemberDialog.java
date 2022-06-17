@@ -46,12 +46,12 @@ public class SeeAllMemberDialog extends Dialog {
         recyclerView.setLayoutManager(layoutManager);
         List<MemberItem> list = new ArrayList<>();
         CacheHandler.Group group = CacheHandler.getGroup(groupId);
-        list.add(new MemberItem(group.owner));
+        list.add(new MemberItem(group.owner, groupId));
         for (String admin : group.admins) {
-            list.add(new MemberItem(admin));
+            list.add(new MemberItem(admin, groupId));
         }
         for (String member : group.members) {
-            list.add(new MemberItem(member));
+            list.add(new MemberItem(member, groupId));
         }
         SeeAllMemberAdapter fruitAdapter = new SeeAllMemberAdapter(list, groupId);
         recyclerView.setAdapter(fruitAdapter);

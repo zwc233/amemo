@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -44,6 +45,8 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class InGroupActivity extends AppCompatActivity {
 
+    Lock gotResponse = new ReentrantLock();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,51 +59,17 @@ public class InGroupActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         String groupId = intent.getStringExtra("groupId");
+        String description = intent.getStringExtra("description");
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
 
-        ImageButton btn = findViewById(R.id.btnCreateNewMemo);
-        btn.setOnClickListener(v -> {
-            CustomBottomDialog customBottomDialog =
-                    new CustomBottomDialog(
-                            InGroupActivity.this,
-                            getIntent().getStringExtra("groupId")
-                    );
-            customBottomDialog.show();
-            overridePendingTransition(R.anim.anim_slide_in_bottom,R.anim.no_anim);
-        });
+        TextView groupDescription = findViewById(R.id.group_description);
+        groupDescription.setText(description);
 
-        ImageButton btn2 = findViewById(R.id.btnInvite);
-        btn2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                InviteUserDialog customBottomDialog = new InviteUserDialog(
-                        InGroupActivity.this,
-                        getIntent().getStringExtra("groupId"));
-                customBottomDialog.show();
-                overridePendingTransition(R.anim.anim_slide_in_bottom,R.anim.no_anim);
-
-            }
-        });
-
-        ImageButton btn3 = findViewById(R.id.btnSeeMember);
-        btn3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                SeeAllMemberDialog customBottomDialog = new SeeAllMemberDialog(InGroupActivity.this,
-                        intent.getStringExtra("groupId"));
-                customBottomDialog.show();
-                overridePendingTransition(R.anim.anim_slide_in_bottom,R.anim.no_anim);
-            }
-        });
-
-        final RecyclerView recyclerView = findViewById(R.id.recyclerViewInGroup);
+        RecyclerView recyclerView = findViewById(R.id.recyclerViewInGroup);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        List<MemoItem> list = new ArrayList<>();
-        StringBuilder notFound = new StringBuilder();
-        Lock gotResponse = new ReentrantLock();
         CacheHandler.Group group = CacheHandler.getGroup(groupId);
         while (group == null) {
             gotResponse.lock();
@@ -119,7 +88,7 @@ public class InGroupActivity extends AppCompatActivity {
                                             CacheHandler.saveGroup(info.getJSONObject("info"));
                                         } else {
                                             Toast.makeText(this,
-                                                    "群组 " + groupId + " 可能已经被删除",
+                                                    R.string.group_does_not_exist,
                                                     Toast.LENGTH_SHORT).show();
                                         }
                                     } else if (responseObj.getString("code").equals("400")) {
@@ -160,7 +129,134 @@ public class InGroupActivity extends AppCompatActivity {
             group = CacheHandler.getGroup(groupId);
             gotResponse.unlock();
         }
+        List<MemoItem> list = new ArrayList<>();
         MemoAdapter fruitAdapter = new MemoAdapter(list);
+        StringBuilder notFound = new StringBuilder();
+        for (String memoId : group.memos) {
+            CacheHandler.Memo memo = CacheHandler.getMemo(memoId);
+            if (memo == null) {
+                if (notFound.length() != 0) {
+                    notFound.append(":");
+                }
+                notFound.append(memoId);
+            }
+        }
+        if (notFound.length() > 0) {
+            gotResponse.lock();
+            requestQueue.add(
+                    new StringRequest(
+                            Request.Method.POST,
+                            UrlUtils.makeHttpUrl(UrlUtils.memoInfoUrl),
+                            response -> {
+                                try {
+                                    JSONObject responseObj = new JSONObject(response);
+                                    System.out.println(responseObj.getString("msg"));
+                                    if (responseObj.getString("code").equals("200")) {
+                                        JSONArray memoObjs = responseObj.getJSONArray("result");
+                                        for (int i = 0; i < memoObjs.length(); i++) {
+                                            JSONObject info = memoObjs.getJSONObject(i);
+                                            if (info.getString("code").equals("200")) {
+                                                CacheHandler.saveMemo(info.getJSONObject("info"));
+                                            }
+                                        }
+                                    } else {
+                                        Toast.makeText(this,
+                                                R.string.request_failed,
+                                                Toast.LENGTH_SHORT).show();
+                                    }
+                                } catch (JSONException e) {
+                                    System.out.println(e.getMessage());
+                                    Toast.makeText(this,
+                                            R.string.response_parse_failure,
+                                            Toast.LENGTH_SHORT).show();
+                                }
+                                gotResponse.unlock();
+                                updateRecyclerView();
+                            },
+                            error -> {
+                                System.out.println(error.getMessage());
+                                Toast.makeText(this,
+                                        R.string.no_response,
+                                        Toast.LENGTH_SHORT).show();
+                                gotResponse.unlock();
+                            }
+                    ) {
+                        @Override
+                        protected Map<String, String> getParams() {
+                            Map<String, String> params = new HashMap<>();
+                            params.put("token", CacheHandler.getToken());
+                            params.put("mIds", notFound.toString());
+                            return params;
+                        }
+                    }
+            );
+        }
+
+        gotResponse.lock();
+        for (String memoId : group.memos) {
+            CacheHandler.Memo memo = CacheHandler.getMemo(memoId);
+            if (memo != null) {
+                list.add(new MemoItem(memo));
+            }
+        }
+        recyclerView.setAdapter(fruitAdapter);
+        gotResponse.unlock();
+
+        ImageButton btn = findViewById(R.id.btnCreateNewMemo);
+        btn.setOnClickListener(v -> {
+            CustomBottomDialog customBottomDialog =
+                    new CustomBottomDialog(
+                            InGroupActivity.this,
+                            groupId,
+                            this
+                    );
+            customBottomDialog.show();
+            overridePendingTransition(R.anim.anim_slide_in_bottom,R.anim.no_anim);
+        });
+
+        ImageButton btn2 = findViewById(R.id.btnInvite);
+        btn2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                InviteUserDialog customBottomDialog = new InviteUserDialog(
+                        InGroupActivity.this,
+                        getIntent().getStringExtra("groupId"));
+                customBottomDialog.show();
+                overridePendingTransition(R.anim.anim_slide_in_bottom,R.anim.no_anim);
+
+            }
+        });
+
+        ImageButton btn3 = findViewById(R.id.btnSeeMember);
+        btn3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SeeAllMemberDialog customBottomDialog = new SeeAllMemberDialog(InGroupActivity.this,
+                        intent.getStringExtra("groupId"));
+                customBottomDialog.show();
+                overridePendingTransition(R.anim.anim_slide_in_bottom,R.anim.no_anim);
+            }
+        });
+    }
+
+    public void updateRecyclerView() {
+
+        String groupId = getIntent().getStringExtra("groupId");
+        CacheHandler.Group group = CacheHandler.getGroup(groupId);
+
+        RecyclerView recyclerView = findViewById(R.id.recyclerViewInGroup);
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+
+        List<MemoItem> list = new ArrayList<>();
+        MemoAdapter fruitAdapter = new MemoAdapter(list);
+        for (String memoId : group.memos) {
+            CacheHandler.Memo memo = CacheHandler.getMemo(memoId);
+            if (memo != null) {
+                list.add(new MemoItem(memo));
+            }
+        }
         recyclerView.setAdapter(fruitAdapter);
     }
 }

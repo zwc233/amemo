@@ -2,6 +2,16 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.amemo">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.FLASHLIGHT" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/my_icon"
@@ -10,23 +20,28 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Amemo"
         android:usesCleartextTraffic="true">
+        <activity
+            android:name=".FunctionIntro"
+            android:exported="false" />
 
+        <service
+            android:name=".SubscribeService"
+            android:enabled="true"
+            android:exported="true" />
         <service
             android:name=".ReminderService"
             android:enabled="true"
             android:exported="true" />
+
         <activity
             android:name=".allMemberActivity"
             android:exported="false" />
-
         <activity
             android:name=".ui.group.InGroupActivity"
             android:exported="false" />
-
         <activity
             android:name=".UserInfoActivity"
             android:exported="false" />
-
         <activity
             android:name=".AfterLoginActivity"
             android:exported="false"
@@ -44,20 +59,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
+
         <receiver android:name=".AlarmReceiver" />
-
     </application>
-
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
-    <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.FLASHLIGHT" />
 
 </manifest>
